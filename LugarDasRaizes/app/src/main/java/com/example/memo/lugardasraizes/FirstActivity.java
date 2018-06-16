@@ -20,6 +20,7 @@ public class FirstActivity extends Activity implements View.OnClickListener {
 
         btnOk = (Button) findViewById(R.id.ok);
         btnOk.setOnClickListener(this);
+        btnOk.setText("WIFI");
 
         ft = (EditText) findViewById(R.id.ft);
     }
