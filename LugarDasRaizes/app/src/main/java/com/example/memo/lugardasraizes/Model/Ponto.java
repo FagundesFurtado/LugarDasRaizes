@@ -1,6 +1,7 @@
-package com.example.memo.lugardasraizes;
+package com.example.memo.lugardasraizes.Model;
 
-public class Ponto {
+
+public class Ponto  {
 
     private double x, y;
     private boolean polo;
