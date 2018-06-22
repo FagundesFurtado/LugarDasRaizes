@@ -15,11 +15,18 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.memo.lugardasraizes.Dados.Grafico;
+import com.example.memo.lugardasraizes.Dados.ResolveRaizes;
+import com.example.memo.lugardasraizes.Dados.Termo;
 import com.example.memo.lugardasraizes.Main.MainActivity;
 import com.example.memo.lugardasraizes.R;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.regex.Pattern;
 
-public class Inicio extends Fragment implements View.OnClickListener{
+
+public class Inicio extends Fragment implements View.OnClickListener {
 
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
@@ -39,7 +46,6 @@ public class Inicio extends Fragment implements View.OnClickListener{
     public Inicio() {
 
     }
-
 
 
     public static Inicio newInstance(String param1, String param2) {
@@ -100,11 +106,16 @@ public class Inicio extends Fragment implements View.OnClickListener{
 
     @Override
     public void onClick(View v) {
-        if(v == btnOk){
-            if((!numerador.equals("")) && (! denominador.equals(""))){
+        if (v == btnOk) {
+            if ((!numerador.equals("")) && (!denominador.equals(""))) {
+                String[] f = new String[2];
+                f[0] = numerador.getText().toString();
+                f[1] = denominador.getText().toString();
+                this.trataString(f[1]);
+
 
                 grafico.setEquacao(numerador.toString(), denominador.toString());
-                ((MainActivity)getActivity()).graficoFragment();
+                ((MainActivity) getActivity()).graficoFragment();
                 Log.i(TAG, "Clicou no botao");
 
 
@@ -118,4 +129,69 @@ public class Inicio extends Fragment implements View.OnClickListener{
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
     }
+
+    private void trataString(String funcao) {
+        //3s^3+2s^2+s^1+4
+        String poli = "1x^3+3x^2+2x^1";
+
+        Pattern.compile("(?=[+-])").split(poli);
+
+        Pattern pegapoli = Pattern.compile("(?=[+-])");
+        String[] m = pegapoli.split(poli);
+        ArrayList<Termo> termos = new ArrayList<>();
+        for (String i : m) {
+            Log.i("Poli", i);
+            addTermo(termos, i);
+        }
+        Collections.sort(
+                termos, new Comparator<Termo>() {
+                    @Override
+                    public int compare(Termo o1, Termo o2) {
+                        return o2.getGrau().compareTo(o1.getGrau());
+                    }
+                }
+        );
+
+
+        for(Termo q : termos)
+            Log.i("Vetor termos ", "Termo "+q.toString());
+        Integer[] termosParaFuncao = new Integer[termos.get(0).getGrau()+1];
+        for(int j =0; j<termosParaFuncao.length;j++)
+            termosParaFuncao[j] = 0;
+        for(int i =0;i<termos.size();i++)
+        {
+            Log.i("vetorFinal", "Posicao "+termos.get(i).getGrau()+"\t"+termos.get(i).getCoeficiente() );
+          termosParaFuncao[termos.get(i).getGrau()] =  termos.get(i).getCoeficiente();
+        }
+        for(int p = 0;p<termosParaFuncao.length;p++)
+        {
+            Log.i("peteca", "Valor "+termosParaFuncao[p]+"\t posicao "+p);
+        }
+
+    }
+
+    public void addTermo(ArrayList<Termo> lista, String termo) {
+        termo = termo.replace("^", "");
+        String[] funcao = termo.split("x");
+
+        for (String l : funcao)
+            Log.i("Funcao ", l);
+        if (funcao.length == 2) {
+
+            lista.add(new Termo(Integer.parseInt(funcao[0]), Integer.parseInt(funcao[1])));
+
+        }
+        if(funcao.length == 1)
+        {
+            try {
+                lista.add(new Termo(Integer.parseInt(funcao[0]), 0));
+            }
+            catch (Exception e )
+            {
+                e.printStackTrace();
+            }
+
+        }
+    }
+
 }

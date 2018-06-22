@@ -11,6 +11,7 @@ import org.apache.commons.math3.analysis.solvers.LaguerreSolver;
 import org.apache.commons.math3.complex.Complex;
 
 import java.util.ArrayList;
+import java.util.regex.Pattern;
 
 public class ResolveRaizes extends AsyncTask {
 
@@ -27,7 +28,7 @@ public class ResolveRaizes extends AsyncTask {
     @Override
     protected Object doInBackground(Object[] objects) {
         double[] equacao = new double[]{0,2,3,1};
-
+        //trataString(objects[0].toString());
 
         PolynomialFunction polynomial = new PolynomialFunction(equacao);
 
@@ -45,5 +46,29 @@ public class ResolveRaizes extends AsyncTask {
 
         Log.i(TAG, "Finalizou AsynkTask");
         return null;
+    }
+
+    private void trataString(String funcao)
+    {
+        //3s^3+2s^2+s^1+4
+        String poli = "-3x^3-(3x^2)+4+3x+2x^8";
+        Pattern.compile("(?=[+-])").split(poli);
+
+        Pattern pegapoli = Pattern.compile("(?=[+-])");
+        String[] m = pegapoli.split(poli);
+
+        for(String i : m)
+            Log.i("Poli", i);
+        ArrayList<Termo> termos = new ArrayList<>();
+        int sinal=1;
+        for(int i=0;i<funcao.length();i++)
+        {
+            if(funcao.charAt(i) == '-')
+                sinal = -1;
+
+
+        }
+
+
     }
 }
