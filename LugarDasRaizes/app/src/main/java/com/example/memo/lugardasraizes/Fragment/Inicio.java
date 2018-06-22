@@ -16,8 +16,8 @@ import android.widget.Toast;
 
 import com.example.memo.lugardasraizes.Dados.Grafico;
 import com.example.memo.lugardasraizes.Dados.ResolveRaizes;
-import com.example.memo.lugardasraizes.Dados.Termo;
 import com.example.memo.lugardasraizes.Main.MainActivity;
+import com.example.memo.lugardasraizes.Model.Termo;
 import com.example.memo.lugardasraizes.R;
 
 import java.util.ArrayList;
@@ -161,7 +161,7 @@ public class Inicio extends Fragment implements View.OnClickListener {
         for(int i =0;i<termos.size();i++)
         {
             Log.i("vetorFinal", "Posicao "+termos.get(i).getGrau()+"\t"+termos.get(i).getCoeficiente() );
-          termosParaFuncao[termos.get(i).getGrau()] =  termos.get(i).getCoeficiente();
+            termosParaFuncao[termos.get(i).getGrau()] =  termos.get(i).getCoeficiente();
         }
         for(int p = 0;p<termosParaFuncao.length;p++)
         {
