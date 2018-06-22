@@ -32,7 +32,9 @@ public class Grafico {
 
     public void setEquacao(String numerador, String denominador){
         this.numerador = numerador;
+
         this.denominador = denominador;
+
 
     }
 
