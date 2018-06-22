@@ -5,16 +5,12 @@ import android.os.AsyncTask;
 import com.example.memo.lugardasraizes.Fragment.GraficoFragment;
 import com.example.memo.lugardasraizes.Model.Ponto;
 
-import org.apache.commons.math3.analysis.polynomials.PolynomialFunction;
-import org.apache.commons.math3.analysis.solvers.LaguerreSolver;
-import org.apache.commons.math3.complex.Complex;
-
 import java.util.ArrayList;
 
 public class Grafico {
     private static final Grafico ourInstance = new Grafico();
-    protected String numerador;
-    protected String denominador;
+    protected String numerador = "1";
+    protected String denominador = "S(S+1)(S+2)";
     private GraficoFragment graficoFragment;
 
 
