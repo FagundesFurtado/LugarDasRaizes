@@ -63,9 +63,10 @@ public class ResolveRaizes extends AsyncTask {
         int sinal=1;
         for(int i=0;i<funcao.length();i++)
         {
-            if(funcao.charAt(i) == '-')
+            if(funcao.charAt(i) == '-') {
                 sinal = -1;
-
+            }
+            //Testando commit no pc da Renata Dias
 
         }
 

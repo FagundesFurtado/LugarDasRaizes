@@ -1,0 +1,34 @@
+<application>
+  <component name="DimensionService">
+    <location key="WELCOME_SCREEN.0.0.1366.768" x="685" y="346" />
+    <location key="com.intellij.ide.util.TipDialog.0.0.1366.768" x="390" y="195" />
+    <location key="SettingsEditor.0.0.1366.768" x="164" y="33" />
+    <location key="deploy.picker.dialog.0.0.1366.768" x="363" y="132" />
+    <location key="#com.intellij.ide.util.MemberChooser.0.0.1366.768" x="488" y="85" />
+    <location key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog.0.0.1366.768" x="413" y="124" />
+    <location key="chooseDestDirectoryDialog.0.0.1366.768" x="499" y="155" />
+    <location key="com.intellij.testIntegration.createTest.CreateTestDialog.0.0.1366.768" x="454" y="123" />
+    <location key="#app.0.0.1366.768" x="472" y="2" />
+    <location key="#com.intellij.codeInsight.editorActions.RestoreReferencesDialog.0.0.1366.768" x="413" y="132" />
+    <location key="FileChooserDialogImpl.0.0.1366.768" x="463" y="132" />
+    <location key="AndroidCreateXmlResourceDialog.0.0.1366.768" x="541" y="170" />
+    <location key="#com.intellij.fileTypes.FileTypeChooser.0.0.1366.768" x="437" y="173" />
+    <location key="AndroidCreateResourceFileDialog.0.0.1366.768" x="263" y="132" />
+    <location key="IdeErrosDialog.0.0.1366.768" x="314" y="192" />
+    <location key="#com.intellij.refactoring.move.moveClassesOrPackages.MoveClassesOrPackagesDialog.classes.0.0.1366.768" x="441" y="229" />
+    <location key="com.intellij.openapi.editor.actions.MultiplePasteAction$1.0.0.1366.768" x="347" y="0" />
+    <location key="GitCloneDialog.0.0.1366.768" x="496" y="287" />
+    <location key="git4idea.merge.GitPullDialog.0.0.1366.768" x="400" y="166" />
+    <location key="#Browse_Repositories.0.0.1366.768" x="263" y="32" />
+    <location key="#com.intellij.refactoring.typeMigration.ui.FailedConversionsDialog.0.0.1366.768" x="413" y="132" />
+    <location key="Github.ShareDialog.0.0.1366.768" x="475" y="261" />
+    <location key="Github.UntrackedFilesDialog.0.0.1366.768" x="446" y="100" />
+    <location key="CommitChangelistDialog2.0.0.1366.768" x="275" y="0" />
+    <location key="Vcs.Push.Dialog.0.0.1366.768" x="418" y="100" />
+    <size key="GridCell.Tab.0.left.0.0.1366.768" width="0" height="0" />
+    <size key="GridCell.Tab.0.center.0.0.1366.768" width="0" height="0" />
+    <size key="GridCell.Tab.0.right.0.0.1366.768" width="0" height="0" />
+    <size key="GridCell.Tab.0.bottom.0.0.1366.768" width="0" height="0" />
+    <size key="javadoc.popup.0.0.1366.768" width="446" height="170" />
+  </component>
+</application>

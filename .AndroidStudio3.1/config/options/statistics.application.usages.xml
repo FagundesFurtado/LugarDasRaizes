@@ -1,0 +1,19 @@
+<application>
+  <component name="UsageTrigger">
+    <counts>
+      <entry feature="StripeButton[Android Profiler].hidden" count="6" />
+      <entry feature="StripeButton[Android Profiler].shown" count="6" />
+      <entry feature="StripeButton[Android_Profiler].hidden" count="37" />
+      <entry feature="StripeButton[Android_Profiler].shown" count="33" />
+      <entry feature="StripeButton[Version Control].shown" count="2" />
+      <entry feature="execute.AndroidRunConfigurationType.Run" count="776" />
+      <entry feature="ide.settings.Android_SDK" count="1" />
+      <entry feature="ide.settings.Plugins" count="1" />
+      <entry feature="ideaapp.started" count="51" />
+      <entry feature="terminal.win" count="9" />
+      <entry feature="tips.of.the.day.next" count="42" />
+      <entry feature="welcome.screen.WelcomeScreen.CreateNewProject" count="1" />
+      <entry feature="welcome.screen.WelcomeScreen.OpenProject" count="1" />
+    </counts>
+  </component>
+</application>
