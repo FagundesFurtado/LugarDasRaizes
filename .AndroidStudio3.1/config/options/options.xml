@@ -56,6 +56,6 @@
     <property name="PLUGIN_FILTER" value="wakatime" />
     <property name="build.toolwindow.Sync.selection.state" value="com.intellij.build.BuildTreeConsoleView" />
     <property name="build.toolwindow.Build.selection.state" value="com.intellij.build.BuildTreeConsoleView" />
-    <property name="CommitChangeListDialog.DETAILS_SPLITTER_PROPORTION_2" value="0.64580154" />
+    <property name="CommitChangeListDialog.DETAILS_SPLITTER_PROPORTION_2" value="0.65801525" />
   </component>
 </application>

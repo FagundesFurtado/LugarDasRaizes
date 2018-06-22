@@ -5,6 +5,7 @@ import android.util.Log;
 
 import com.example.memo.lugardasraizes.Adapter.RespostaGrafico;
 import com.example.memo.lugardasraizes.Model.Ponto;
+import com.example.memo.lugardasraizes.Model.Termo;
 
 import org.apache.commons.math3.analysis.polynomials.PolynomialFunction;
 import org.apache.commons.math3.analysis.solvers.LaguerreSolver;
@@ -67,7 +68,7 @@ public class ResolveRaizes extends AsyncTask {
                 sinal = -1;
             }
             //Testando commit no pc da Renata Dias
-
+            //Ta chato esse negocio de git
         }
 
 
