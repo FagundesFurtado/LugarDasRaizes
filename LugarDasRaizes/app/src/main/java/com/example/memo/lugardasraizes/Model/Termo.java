@@ -1,4 +1,4 @@
-package com.example.memo.lugardasraizes.Dados;
+package com.example.memo.lugardasraizes.Model;
 
 public class Termo {
     private Integer coeficiente;
