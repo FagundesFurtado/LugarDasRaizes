@@ -1,6 +1,7 @@
 package com.example.memo.lugardasraizes.Fragment;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -15,6 +16,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.memo.lugardasraizes.Dados.Grafico;
+import com.example.memo.lugardasraizes.Dados.ResolveRaizes;
 import com.example.memo.lugardasraizes.Main.MainActivity;
 import com.example.memo.lugardasraizes.R;
 
@@ -106,10 +108,10 @@ public class Inicio extends Fragment implements View.OnClickListener {
     public void onClick(View v) {
         if (v == btnOk) {
             if ((!numerador.equals("")) && (!denominador.equals(""))) {
-//                String[] f = new String[2];
-//                f[0] = numerador.getText().toString();
-//                f[1] = denominador.getText().toString();
-                grafico.setEquacao(numerador.toString(), denominador.toString());
+                String[] f = new String[2];
+                f[0] = numerador.getText().toString();
+                f[1] = denominador.getText().toString();
+                grafico.setEquacao(f[0].toString(), f[1].toString());
                 ((MainActivity) getActivity()).graficoFragment();
                 Log.i(TAG, "Clicou no botao");
 
