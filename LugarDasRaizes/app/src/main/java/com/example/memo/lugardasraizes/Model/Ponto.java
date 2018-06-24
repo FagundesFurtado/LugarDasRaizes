@@ -11,6 +11,11 @@ public class Ponto  {
         this.x = x;
         this.y = y;
     }
+    public Ponto(double x, double y, boolean polo) {
+        this.x = x;
+        this.y = y;
+        this.polo = polo;
+    }
 
     public double getX() {
         return x;

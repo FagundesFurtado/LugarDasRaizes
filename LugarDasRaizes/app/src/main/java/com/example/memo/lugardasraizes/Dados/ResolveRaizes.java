@@ -19,15 +19,16 @@ import java.util.Comparator;
 import java.util.regex.Pattern;
 
 public class ResolveRaizes extends AsyncTask {
-    private static ResolveRaizes singleton = new ResolveRaizes( );
+    private static ResolveRaizes singleton = new ResolveRaizes();
     private final String TAG = "Grafico";
     private RespostaGrafico r;
     private Grafico grafico = Grafico.getInstance();
 
 
-    private ResolveRaizes() { }
+    private ResolveRaizes() {
+    }
 
-    public static ResolveRaizes getInstance( ) {
+    public static ResolveRaizes getInstance() {
         return singleton;
     }
 
@@ -38,40 +39,53 @@ public class ResolveRaizes extends AsyncTask {
 
     }
 
-    @Override
-    protected Object doInBackground(Object[] objects) {
-        Double zeros[] = trataString(grafico.numerador);
-        Double polos[] = trataString(grafico.denominador);
 
-
-
-
-        double[] equacao = new double[]{0, 2, 3, 1};
-        //trataString(objects[0].toString());
+    private void adicionaPontos(double[] equacao, ArrayList<Ponto> pontos, boolean polo) {
 
         PolynomialFunction polynomial = new PolynomialFunction(equacao);
 
         LaguerreSolver laguerreSolver = new LaguerreSolver();
-        Complex[] raizes = laguerreSolver.solveAllComplex(equacao, 0);
 
-        ArrayList<Ponto> pontos = new ArrayList<>();
 
-        for (Complex c : raizes) {
-            pontos.add(new Ponto(c.getReal(), c.getImaginary()));
+        Log.i(TAG, "Vetor Equacao");
+        for (double d : equacao) {
+            Log.i(TAG, "" + d);
         }
+        if (equacao.length != 1) {
+            Complex[] raizes = laguerreSolver.solveAllComplex(equacao, 0);
+            for (Complex c : raizes) {
+                pontos.add(new Ponto(c.getReal(), c.getImaginary(), polo));
+            }
+        }
+    }
 
 
-        r.grafico(pontos);
+    @Override
+    protected Object doInBackground(Object[] objects) {
+
+
+        double zeros[] = trataString(grafico.numerador);
+        double polos[] = trataString(grafico.denominador);
+
+        ArrayList<Ponto> polosVetor = new ArrayList<>();
+        ArrayList<Ponto> zerosVetor = new ArrayList<>();
+        adicionaPontos(zeros, polosVetor, false);
+        adicionaPontos(polos, zerosVetor, true);
+        double[] equacao = new double[]{0, 2, 3, 1};
+        //trataString(objects[0].toString());
+
+
+        r.grafico(polosVetor, zerosVetor);
 
         Log.i(TAG, "Finalizou AsynkTask");
         return null;
     }
 
-//trying
-    private Double[] trataString(String funcao) {
+    //trying
+    private double[] trataString(String funcao) {
 
-        //String poli = funcao;
-        String poli = "1x^3+3x^2+2x^1";
+        String poli = funcao;
+        //String poli = "1x^3+3x^2+2x^1";
         Pattern.compile("(?=[+-])").split(poli);
 
         Pattern pegapoli = Pattern.compile("(?=[+-])");
@@ -90,25 +104,32 @@ public class ResolveRaizes extends AsyncTask {
 
 
         for (Termo q : termos) {
-            Log.i("Vetor termos ", "Termo " + q.toString());
+            Log.i("TermosPronto ", "Termo " + q.toString());
         }
 
-//trying
-        Double[] termosParaFuncao = new Double[termos.get(0).getGrau()+2];
-        Log.i("vetor", String.valueOf(termos.get(0).getGrau()+2));
+        Log.i("TamanhoTermos", "" + termos.size());
+
+
+        double[] termosParaFuncao = new double[termos.size()];
+        Log.i("vetor", String.valueOf(termos.get(0).getGrau() + 2));
 
         for (int j = 0; j < termosParaFuncao.length; j++) {
             termosParaFuncao[j] = Double.valueOf(0);
         }
-        //trying
+
         for (int i = 0; i < termos.size(); i++) {
             Log.i("vetorFinal", "Posicao " + termos.get(i).getGrau() + "\t" + termos.get(i).getCoeficiente());
-            termosParaFuncao[termos.get(i).getGrau()-1] = Double.valueOf(termos.get(i).getCoeficiente());
+            termosParaFuncao[i] = Double.valueOf(termos.get(i).getCoeficiente());
         }
         for (int p = 0; p < termosParaFuncao.length; p++) {
             Log.i("peteca", "Valor " + termosParaFuncao[p] + "\t posicao " + p);
         }
-//trying
+
+        for (double d : termosParaFuncao) {
+
+            Log.i("SaidaVetor", "" + d);
+        }
+
 
         return termosParaFuncao;
 
@@ -118,16 +139,15 @@ public class ResolveRaizes extends AsyncTask {
         termo = termo.replace("^", "");
         String[] funcao = termo.split("x");
 
-//trying
-        for (int l=0; l<funcao.length; l++) {
-            if (funcao[l].contains("+")){
+        for (int l = 0; l < funcao.length; l++) {
+            if (funcao[l].contains("+")) {
                 char aux;
                 aux = funcao[l].charAt(1);
                 Log.i("Funcao ", String.valueOf(aux));
-                funcao[l]=String.valueOf(aux);
+                funcao[l] = String.valueOf(aux);
             }
 
-            }
+        }
         if (funcao.length == 2) {
             lista.add(new Termo(Integer.parseInt(funcao[0]), Integer.parseInt(funcao[1])));
         }

@@ -2,6 +2,7 @@ package com.example.memo.lugardasraizes.Main;
 
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
@@ -16,9 +17,14 @@ import android.widget.Toast;
 
 
 import com.example.memo.lugardasraizes.Adapter.MyTabsListener;
+import com.example.memo.lugardasraizes.Adapter.RespostaGrafico;
 import com.example.memo.lugardasraizes.Adapter.TabsAdapter;
 import com.example.memo.lugardasraizes.Dados.Grafico;
+import com.example.memo.lugardasraizes.Dados.ResolveRaizes;
+import com.example.memo.lugardasraizes.Fragment.GraficoFragment;
 import com.example.memo.lugardasraizes.R;
+
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -47,7 +53,6 @@ public class MainActivity extends AppCompatActivity {
                 setTabListener(new MyTabsListener(viewPager, 1)));
 
 
-
         viewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float
@@ -70,14 +75,23 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    public void graficoFragment(){
+    public void graficoFragment() {
 
 
         viewPager.setCurrentItem(1);
+        List<Fragment> fragmentList = getSupportFragmentManager().getFragments();
+
+        for (Fragment f : fragmentList) {
+            if (f instanceof GraficoFragment) {
+                GraficoFragment graficoFragment = (GraficoFragment) f;
+
+                ResolveRaizes resolveRaizes = new ResolveRaizes(graficoFragment);
+            }
+
+        }
 
 
     }
-
 
 
 }

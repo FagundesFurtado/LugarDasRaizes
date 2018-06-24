@@ -35,6 +35,7 @@ public class Inicio extends Fragment implements View.OnClickListener {
     private String mParam1;
     private String mParam2;
     private Button btnOk;
+    private Button btnLimpar;
     private EditText numerador;
     private EditText denominador;
 
@@ -76,9 +77,9 @@ public class Inicio extends Fragment implements View.OnClickListener {
         denominador = v.findViewById(R.id.denominador);
 
         btnOk = v.findViewById(R.id.btnOk);
-
         btnOk.setOnClickListener(this);
-
+        btnLimpar = v.findViewById(R.id.btnLimpar);
+        btnLimpar.setOnClickListener(this);
 
         return v;
     }
@@ -114,11 +115,15 @@ public class Inicio extends Fragment implements View.OnClickListener {
                 grafico.setEquacao(f[0].toString(), f[1].toString());
                 ((MainActivity) getActivity()).graficoFragment();
                 Log.i(TAG, "Clicou no botao");
-
-
             }
 
         }
+        if(v == btnLimpar){
+
+            numerador.setText("");
+            denominador.setText("");
+        }
+
     }
 
 

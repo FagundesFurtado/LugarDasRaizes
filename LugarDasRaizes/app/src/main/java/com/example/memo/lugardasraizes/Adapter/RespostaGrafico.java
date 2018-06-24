@@ -6,5 +6,5 @@ import java.util.ArrayList;
 
 public interface RespostaGrafico {
 
-    public void grafico(ArrayList<Ponto> pontos);
+    public void grafico(ArrayList<Ponto> polos, ArrayList<Ponto> zeros);
 }

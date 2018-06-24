@@ -25,7 +25,7 @@ import java.util.Collections;
 import java.util.Comparator;
 
 
-public class GraficoFragment extends Fragment implements RespostaGrafico, Comparator{
+public class GraficoFragment extends Fragment implements RespostaGrafico, Comparator {
 
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
@@ -68,6 +68,24 @@ public class GraficoFragment extends Fragment implements RespostaGrafico, Compar
         View v = inflater.inflate(R.layout.fragment_grafico, container, false);
 
         graphView = v.findViewById(R.id.graph);
+        graphView.getViewport().setYAxisBoundsManual(true);
+        graphView.getViewport().setMinY(-3);
+        graphView.getViewport().setMaxY(3);
+
+        graphView.getViewport().setXAxisBoundsManual(true);
+        graphView.getViewport().setMinX(-50);
+        graphView.getViewport().setMaxX(50);
+
+        graphView.getViewport().setScrollable(true);
+        graphView.getViewport().setScrollableY(true);
+        graphView.getViewport().setScalable(true);
+        graphView.getViewport().setScalableY(true);
+
+
+        // enable scaling and scrolling
+        graphView.getViewport().setScalable(true);
+        graphView.getViewport().setScalableY(true);
+
 
         ResolveRaizes r = new ResolveRaizes(this);
 
@@ -96,34 +114,53 @@ public class GraficoFragment extends Fragment implements RespostaGrafico, Compar
         mListener = null;
     }
 
-    @Override
-    public void grafico(ArrayList<Ponto> pontos) {
+    private void trataPoloOuZero(PointsGraphSeries<DataPoint> series, boolean polo) {
 
-        graphView.removeAllSeries();
+        if (polo) {
 
-        PointsGraphSeries<DataPoint> series;
+            series.setColor(Color.GREEN);
+            series.setCustomShape(new PointsGraphSeries.CustomShape() {
+                @Override
+                public void draw(Canvas canvas, Paint paint, float x, float y, DataPointInterface dataPoint) {
+                    paint.setStrokeWidth(10);
+                    canvas.drawLine(x - 20, y - 20, x + 20, y + 20, paint);
+                    canvas.drawLine(x + 20, y - 20, x - 20, y + 20, paint);
+                }
+            });
 
-        ArrayList<DataPoint> ponto = new ArrayList<>();
-
-        for(Ponto p : pontos){
-            ponto.add(new DataPoint(p.getX(), p.getY()));
+        } else {
+            series.setColor(Color.BLUE);
         }
 
+
+    }
+
+
+    private PointsGraphSeries<DataPoint> criaPontosSerie(ArrayList<Ponto> pontos) {
+
+
+        ArrayList<DataPoint> ponto = new ArrayList<>();
+        for (Ponto p : pontos) {
+            ponto.add(new DataPoint(p.getX(), p.getY()));
+        }
         Collections.sort(ponto, this);
+        PointsGraphSeries<DataPoint> series = new PointsGraphSeries<>(ponto.toArray(new DataPoint[ponto.size()]));
 
-        series = new PointsGraphSeries<>(ponto.toArray(new DataPoint[ponto.size()]));
 
-        graphView.addSeries(series);
-        series.setColor(Color.GREEN);
-        series.setCustomShape(new PointsGraphSeries.CustomShape() {
-            @Override
-            public void draw(Canvas canvas, Paint paint, float x, float y, DataPointInterface dataPoint) {
-                paint.setStrokeWidth(10);
-                canvas.drawLine(x-20, y-20, x+20, y+20, paint);
-                canvas.drawLine(x+20, y-20, x-20, y+20, paint);
-            }
-        });
+        if (!pontos.isEmpty()) {
+            trataPoloOuZero(series, pontos.get(0).isPolo());
+        }
 
+        return series;
+    }
+
+    @Override
+    public void grafico(ArrayList<Ponto> polos, ArrayList<Ponto> zeros) {
+        graphView.removeAllSeries();
+
+
+        graphView.addSeries(criaPontosSerie(polos));
+        graphView.addSeries(criaPontosSerie(zeros));
 
 
     }
@@ -132,18 +169,14 @@ public class GraficoFragment extends Fragment implements RespostaGrafico, Compar
     public int compare(Object o1, Object o2) {
         DataPoint p1 = (DataPoint) o1;
         DataPoint p2 = (DataPoint) o2;
-
-        if(p1.getX() < p2.getX()){
+        if (p1.getX() < p2.getX()) {
 
             return -1;
         }
-        if(p1.getX() > p2.getX()){
+        if (p1.getX() > p2.getX()) {
 
             return 1;
         }
-
-
-
         return 0;
     }
 
