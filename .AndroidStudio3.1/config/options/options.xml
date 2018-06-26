@@ -29,7 +29,7 @@
     <property name="MemberChooser.showClasses" value="true" />
     <property name="MemberChooser.copyJavadoc" value="false" />
     <property name="Copy.OpenInEditor" value="true" />
-    <property name="LOG_FILTER_HISTORY" value="ola&#10;oie&#10;heyyy&#10;Vetor&#10;Funcao" />
+    <property name="LOG_FILTER_HISTORY" value="Todos&#10;ola&#10;oie&#10;heyyy&#10;Vetor" />
     <property name="ATTACHED_TOOL_WINDOW.DEFAULT.Preview.PALETTE.LEFT" value="true" />
     <property name="ATTACHED_TOOL_WINDOW.Preview.PALETTE.LEFT" value="true" />
     <property name="ATTACHED_TOOL_WINDOW.DEFAULT.Preview.PALETTE.SPLIT" value="false" />
@@ -56,6 +56,6 @@
     <property name="PLUGIN_FILTER" value="wakatime" />
     <property name="build.toolwindow.Sync.selection.state" value="com.intellij.build.BuildTreeConsoleView" />
     <property name="build.toolwindow.Build.selection.state" value="com.intellij.build.BuildTreeConsoleView" />
-    <property name="CommitChangeListDialog.DETAILS_SPLITTER_PROPORTION_2" value="0.65801525" />
+    <property name="CommitChangeListDialog.DETAILS_SPLITTER_PROPORTION_2" value="0.670229" />
   </component>
 </application>

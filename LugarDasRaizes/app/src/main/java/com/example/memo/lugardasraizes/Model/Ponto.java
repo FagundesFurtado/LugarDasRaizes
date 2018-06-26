@@ -1,7 +1,7 @@
 package com.example.memo.lugardasraizes.Model;
 
 
-public class Ponto  {
+public class Ponto implements Comparable<Ponto> {
 
     private double x, y;
     private boolean polo;
@@ -41,4 +41,14 @@ public class Ponto  {
         this.polo = polo;
     }
 
+    @Override
+    public int compareTo(Ponto outroPonto) {
+        if (this.x > outroPonto.getX()) {
+            return -1;
+        }
+        if (this.x < outroPonto.getX()) {
+            return 1;
+        }
+        return 0;
+    }
 }

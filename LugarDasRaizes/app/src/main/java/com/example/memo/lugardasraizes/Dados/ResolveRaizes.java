@@ -6,6 +6,7 @@ import android.util.Log;
 import com.example.memo.lugardasraizes.Adapter.RespostaGrafico;
 import com.example.memo.lugardasraizes.Model.Ponto;
 import com.example.memo.lugardasraizes.Model.Termo;
+import com.example.memo.lugardasraizes.Model.Vetor;
 
 import org.apache.commons.math3.analysis.polynomials.PolynomialFunction;
 import org.apache.commons.math3.analysis.solvers.LaguerreSolver;
@@ -128,13 +129,16 @@ public class ResolveRaizes extends AsyncTask {
     }
     private void intervalos(ArrayList<Ponto> polos, ArrayList<Ponto> zeros) {
         ArrayList<Ponto> todos = (ArrayList<Ponto>) polos.clone();
+        ArrayList<Vetor> vetor = new ArrayList<>();
         todos.addAll(zeros);
         Ponto anterior = new Ponto(-999,0);
-
+        Collections.sort(todos);
         for (Ponto i : todos) {
             Log.i("Todos", i.getX() + "\t" + i.getY());
             if(verificaPolosEZeroAdireita(todos,i.getX())){
                 try{
+                    Vetor v = new Vetor(anterior, i);
+                    vetor.add(v);
                     /*Desenha para esquerda*/
                     desenhaReta(0,0,i.getX(),anterior.getX());
                     anterior = i;
