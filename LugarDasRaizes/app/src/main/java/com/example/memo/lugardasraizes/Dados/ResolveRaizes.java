@@ -77,23 +77,25 @@ public class ResolveRaizes extends AsyncTask {
 
         ArrayList<Ponto> polosVetor = new ArrayList<>();
         ArrayList<Ponto> zerosVetor = new ArrayList<>();
-        adicionaPontos(zeros, polosVetor, false);
-        adicionaPontos(polos, zerosVetor, true);
+        adicionaPontos(zeros,zerosVetor , false);
+        adicionaPontos(polos, polosVetor, true);
         double[] equacao = new double[]{0, 2, 3, 1};
         //trataString(objects[0].toString());
 
         /*Verifica pontos a direita*/
-        intervalos(polosVetor,zerosVetor);
+        ArrayList<Vetor> vetor = new ArrayList<>();
+        intervalos(polosVetor,zerosVetor,  vetor);
 
         /*Assintotas*/
-        assintotas(polosVetor,zerosVetor);
-        r.grafico(polosVetor, zerosVetor);
+        assintotas(polosVetor,zerosVetor,vetor);
+      vetor.add(new Vetor(new Ponto(10,10),new Ponto(200,200)));
+        r.grafico(polosVetor, zerosVetor,vetor);
 
         Log.i(TAG, "Finalizou AsynkTask");
         return null;
     }
 
-    private void assintotas(ArrayList<Ponto> polos, ArrayList<Ponto> zeros)
+    private void assintotas(ArrayList<Ponto> polos, ArrayList<Ponto> zeros, ArrayList<Vetor> vetor)
     {
         double somatoriaRaizesPolo = somatoriaVetor(polos);
         double somatoriaRaizesZero = somatoriaVetor(zeros);
@@ -102,6 +104,20 @@ public class ResolveRaizes extends AsyncTask {
         double direcaoDasAssintotas = 180/quantidadeDeAssintotas;
        // ArrayList<ArrayList<Ponto>> assintotas = new ArrayList<>();
         //Desenha assintota
+        for(Ponto p : polos)
+        {
+            Log.i("ValoresCOmparativos", "POLO "+p.getX());
+        }
+        for(Ponto p : zeros)
+        {
+            Log.i("ValoresCOmparativos", "ZERO "+p.getX());
+        }
+        Log.i("ValoresCOmparativos", "SOMA POLO "+somatoriaRaizesPolo);
+        Log.i("ValoresCOmparativos", "SOMA ZERO "+somatoriaRaizesZero);
+        Log.i("ValoresCOmparativos", "QUANTIDADE DE ASSINTOTAS "+quantidadeDeAssintotas);
+        Log.i("ValoresCOmparativos", "SPONTO DE IRRADIACAO "+pontoIrradiacao);
+
+
         for(int i =0; i<quantidadeDeAssintotas;i++)
         {
             //Coeficiente angular
@@ -109,6 +125,8 @@ public class ResolveRaizes extends AsyncTask {
             double b = 0;
             desenhaReta(coeficienteAngular,b,pontoIrradiacao,9999);
 
+            Ponto pontoFinal = new Ponto(Math.cos(coeficienteAngular)*999,Math.sin(coeficienteAngular)*999);
+            vetor.add(new Vetor(new Ponto(pontoIrradiacao,0),pontoFinal));
         }
 
     }
@@ -127,27 +145,32 @@ public class ResolveRaizes extends AsyncTask {
         }
         return contador;
     }
-    private void intervalos(ArrayList<Ponto> polos, ArrayList<Ponto> zeros) {
+    private void intervalos(ArrayList<Ponto> polos, ArrayList<Ponto> zeros, ArrayList<Vetor> vetor) {
         ArrayList<Ponto> todos = (ArrayList<Ponto>) polos.clone();
-        ArrayList<Vetor> vetor = new ArrayList<>();
+
         todos.addAll(zeros);
-        Ponto anterior = new Ponto(-999,0);
+        Ponto anterior = new Ponto(-10,0);
+        //Se pá tem que mudar ??
         Collections.sort(todos);
+
         for (Ponto i : todos) {
-            Log.i("Todos", i.getX() + "\t" + i.getY());
+            Log.i("Vetor1", i.getX() + "\t" + i.getY());
             if(verificaPolosEZeroAdireita(todos,i.getX())){
                 try{
+                    Log.i("Vetor1","add aqui  atual X"+i.getX() + "\tAnterior x" + anterior.getX());
                     Vetor v = new Vetor(anterior, i);
                     vetor.add(v);
+
                     /*Desenha para esquerda*/
-                    desenhaReta(0,0,i.getX(),anterior.getX());
-                    anterior = i;
+                    //desenhaReta(0,0,i.getX(),anterior.getX());
+
                 }catch (Exception e )
                 {
                     e.printStackTrace();
                 }
-            }
 
+            }
+            anterior = i;
         }
     }
     private boolean verificaPolosEZeroAdireita(ArrayList<Ponto> todos, double ponto)

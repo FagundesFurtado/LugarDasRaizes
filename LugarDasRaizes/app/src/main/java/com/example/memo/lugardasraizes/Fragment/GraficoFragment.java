@@ -7,6 +7,7 @@ import android.graphics.Paint;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +15,7 @@ import android.view.ViewGroup;
 import com.example.memo.lugardasraizes.Adapter.RespostaGrafico;
 import com.example.memo.lugardasraizes.Dados.ResolveRaizes;
 import com.example.memo.lugardasraizes.Model.Ponto;
+import com.example.memo.lugardasraizes.Model.Vetor;
 import com.example.memo.lugardasraizes.R;
 import com.jjoe64.graphview.GraphView;
 import com.jjoe64.graphview.series.DataPoint;
@@ -123,6 +125,8 @@ public class GraficoFragment extends Fragment implements RespostaGrafico, Compar
                 @Override
                 public void draw(Canvas canvas, Paint paint, float x, float y, DataPointInterface dataPoint) {
                     paint.setStrokeWidth(10);
+                    Log.i("Valores",x+"\t"+y);
+                    Log.i("Valores","> "+(x - 20)+"\t"+(y + 20));
                     canvas.drawLine(x - 20, y - 20, x + 20, y + 20, paint);
                     canvas.drawLine(x + 20, y - 20, x - 20, y + 20, paint);
                 }
@@ -134,7 +138,31 @@ public class GraficoFragment extends Fragment implements RespostaGrafico, Compar
 
 
     }
+    private PointsGraphSeries<DataPoint> desenhaReta(final Ponto pontoInicial, final Ponto pontoFinal) {
 
+
+        final ArrayList<DataPoint> ponto = new ArrayList<>();
+
+        ponto.add(new DataPoint(pontoInicial.getX(), pontoInicial.getY()));
+        ponto.add(new DataPoint(pontoFinal.getX(), pontoFinal.getY()));
+        Collections.sort(ponto, this);
+        PointsGraphSeries<DataPoint> series = new PointsGraphSeries<>(ponto.toArray(new DataPoint[ponto.size()]));
+        series.setColor(Color.RED);
+        series.setCustomShape(new PointsGraphSeries.CustomShape() {
+            @Override
+            public void draw(Canvas canvas, Paint paint, float x, float y, DataPointInterface dataPoint) {
+                paint.setStrokeWidth(10);
+
+                canvas.drawLine((float) (x-pontoFinal.getX()),(float) (y-pontoFinal.getY()),(float)(x-pontoInicial.getX()),
+                        (float)(y-pontoInicial.getY()), paint);
+             //   Log.i("Desenhou", "DEsenhou no ponto x"+pontoFinal.getX()+"\tx"+pontoInicial.getX()+"\ty"+pontoInicial.getY());
+            }
+        });
+
+
+
+        return series;
+    }
 
     private PointsGraphSeries<DataPoint> criaPontosSerie(ArrayList<Ponto> pontos) {
 
@@ -155,12 +183,16 @@ public class GraficoFragment extends Fragment implements RespostaGrafico, Compar
     }
 
     @Override
-    public void grafico(ArrayList<Ponto> polos, ArrayList<Ponto> zeros) {
+    public void grafico(ArrayList<Ponto> polos, ArrayList<Ponto> zeros, ArrayList<Vetor> vetor) {
         graphView.removeAllSeries();
 
-
+        for(Vetor v : vetor)
+        {
+            graphView.addSeries(desenhaReta(v.getPontoInicial(),v.getPontoFinal()));
+        }
         graphView.addSeries(criaPontosSerie(polos));
         graphView.addSeries(criaPontosSerie(zeros));
+
 
 
     }
@@ -179,6 +211,8 @@ public class GraficoFragment extends Fragment implements RespostaGrafico, Compar
         }
         return 0;
     }
+
+
 
 
     public interface OnFragmentInteractionListener {

@@ -9,8 +9,8 @@ import java.util.ArrayList;
 
 public class Grafico {
     private static final Grafico ourInstance = new Grafico();
-    protected String numerador = "1x^1+5";
-    protected String denominador = "1x^3+3x^2+2x^1";
+    protected String numerador= "1x^1+1";
+    protected String denominador= "1x^3+5x^2+6x^1+0";
     private GraficoFragment graficoFragment;
 
 
