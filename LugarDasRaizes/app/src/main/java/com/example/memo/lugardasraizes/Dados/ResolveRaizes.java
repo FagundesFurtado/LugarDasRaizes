@@ -12,6 +12,7 @@ import org.apache.commons.math3.analysis.polynomials.PolynomialFunction;
 import org.apache.commons.math3.analysis.solvers.LaguerreSolver;
 import org.apache.commons.math3.complex.Complex;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -40,9 +41,9 @@ public class ResolveRaizes extends AsyncTask {
     }
 
 
-    private void adicionaPontos(double[] equacao, ArrayList<Ponto> pontos, boolean polo) {
+    private void adicionaRaizesDaEquacao(double[] equacao, ArrayList<Ponto> pontos, boolean polo) {
 
-        PolynomialFunction polynomial = new PolynomialFunction(equacao);
+        //PolynomialFunction polynomial = new PolynomialFunction(equacao);
 
         LaguerreSolver laguerreSolver = new LaguerreSolver();
 
@@ -52,120 +53,156 @@ public class ResolveRaizes extends AsyncTask {
             Log.i(TAG, "Ponto " + d);
         }
         if (equacao.length != 1) {
-            for(double d : equacao)
-            {
-                Log.i("Raizes","Funcao -> "+d);
+            for (double d : equacao) {
+                Log.i("Raizes", "Funcao -> " + d);
             }
             Complex[] raizes = laguerreSolver.solveAllComplex(equacao, 0);
             for (Complex c : raizes) {
 
-                Log.i("Raizes",c.toString());
-                pontos.add(new Ponto(c.getReal(), c.getImaginary(), polo));
+                Log.i("Raizes", c.toString());
+                pontos.add(new Ponto(Math.round(c.getReal()), Math.round(c.getImaginary()), polo));
             }
         }
     }
+    private boolean verificaImaginario(ArrayList<Ponto> vetor){
+        for(Ponto p : vetor){
+            if (p.getY()==0){
+                return false;
+            }
+        }
+        return true;
+    }
+
+    private ArrayList<Ponto> raizesReais(ArrayList<Ponto> vetor){
+        ArrayList<Ponto> vetorReais = new ArrayList<>();
+        for(Ponto p :vetor){
+            if(p.getY()==0){
+                vetorReais.add(p);
+            }
+        }
+        return vetorReais;
+    }
+
+    private void desenhaIntersecoesEntreRaizes( ArrayList<Ponto> vetor){
+        Collections.sort(vetor);
+        ArrayList<Vetor> intersecoes = new ArrayList<>();
+        Ponto anterior = null;
+        for(int i =0; i<vetor.size(); i++){
+            if(i%2!=0){
+                intersecoes.add(new Vetor(vetor.get(i), anterior));
+            }
+            anterior=vetor.get(i);
+        }
+
+    }
 
 
-
+    private void resolveEquacaoSoComZeros(double [] polos){
+        ArrayList<Ponto> polosVetor = new ArrayList<>();
+        adicionaRaizesDaEquacao(polos, polosVetor, true);
+        if(!verificaImaginario(polosVetor)){
+            desenhaIntersecoesEntreRaizes(raizesReais(polosVetor));
+        }
+        
+        
+    }
+    
 
     @Override
     protected Object doInBackground(Object[] objects) {
 
-
+        
         double zeros[] = trataString(grafico.numerador);
         double polos[] = trataString(grafico.denominador);
 
         ArrayList<Ponto> polosVetor = new ArrayList<>();
         ArrayList<Ponto> zerosVetor = new ArrayList<>();
-        adicionaPontos(zeros,zerosVetor , false);
-        adicionaPontos(polos, polosVetor, true);
+        adicionaRaizesDaEquacao(zeros, zerosVetor, false);
+        adicionaRaizesDaEquacao(polos, polosVetor, true);
+        
+        
+        
         double[] equacao = new double[]{0, 2, 3, 1};
         //trataString(objects[0].toString());
 
         /*Verifica pontos a direita*/
         ArrayList<Vetor> vetor = new ArrayList<>();
-        intervalos(polosVetor,zerosVetor,  vetor);
+        intervalos(polosVetor, zerosVetor, vetor);
 
         /*Assintotas*/
-        assintotas(polosVetor,zerosVetor,vetor);
-      vetor.add(new Vetor(new Ponto(10,10),new Ponto(200,200)));
-        r.grafico(polosVetor, zerosVetor,vetor);
+        assintotas(polosVetor, zerosVetor, vetor);
+        vetor.add(new Vetor(new Ponto(10, 10), new Ponto(200, 200)));
+        r.grafico(polosVetor, zerosVetor, vetor);
 
         Log.i(TAG, "Finalizou AsynkTask");
         return null;
     }
 
-    private void assintotas(ArrayList<Ponto> polos, ArrayList<Ponto> zeros, ArrayList<Vetor> vetor)
-    {
+    private void assintotas(ArrayList<Ponto> polos, ArrayList<Ponto> zeros, ArrayList<Vetor> vetor) {
         double somatoriaRaizesPolo = somatoriaVetor(polos);
         double somatoriaRaizesZero = somatoriaVetor(zeros);
-        double quantidadeDeAssintotas = polos.size()-zeros.size();
-        double pontoIrradiacao = (somatoriaRaizesPolo-somatoriaRaizesZero)/(quantidadeDeAssintotas);
-        double direcaoDasAssintotas = 180/quantidadeDeAssintotas;
-       // ArrayList<ArrayList<Ponto>> assintotas = new ArrayList<>();
+        double quantidadeDeAssintotas = polos.size() - zeros.size();
+        double pontoIrradiacao = (somatoriaRaizesPolo - somatoriaRaizesZero) / (quantidadeDeAssintotas);
+        double direcaoDasAssintotas = 180 / quantidadeDeAssintotas;
+        // ArrayList<ArrayList<Ponto>> assintotas = new ArrayList<>();
         //Desenha assintota
-        for(Ponto p : polos)
-        {
-            Log.i("ValoresCOmparativos", "POLO "+p.getX());
+        for (Ponto p : polos) {
+            Log.i("ValoresCOmparativos", "POLO " + p.getX());
         }
-        for(Ponto p : zeros)
-        {
-            Log.i("ValoresCOmparativos", "ZERO "+p.getX());
+        for (Ponto p : zeros) {
+            Log.i("ValoresCOmparativos", "ZERO " + p.getX());
         }
-        Log.i("ValoresCOmparativos", "SOMA POLO "+somatoriaRaizesPolo);
-        Log.i("ValoresCOmparativos", "SOMA ZERO "+somatoriaRaizesZero);
-        Log.i("ValoresCOmparativos", "QUANTIDADE DE ASSINTOTAS "+quantidadeDeAssintotas);
-        Log.i("ValoresCOmparativos", "SPONTO DE IRRADIACAO "+pontoIrradiacao);
+        Log.i("ValoresCOmparativos", "SOMA POLO " + somatoriaRaizesPolo);
+        Log.i("ValoresCOmparativos", "SOMA ZERO " + somatoriaRaizesZero);
+        Log.i("ValoresCOmparativos", "QUANTIDADE DE ASSINTOTAS " + quantidadeDeAssintotas);
+        Log.i("ValoresCOmparativos", "SPONTO DE IRRADIACAO " + pontoIrradiacao);
 
 
-        for(int i =0; i<quantidadeDeAssintotas;i++)
-        {
+        for (int i = 0; i < quantidadeDeAssintotas; i++) {
             //Coeficiente angular
-            double coeficienteAngular = Math.atan((360*i-180)/quantidadeDeAssintotas);
+            double coeficienteAngular = Math.atan((360 * i - 180) / quantidadeDeAssintotas);
             double b = 0;
-            desenhaReta(coeficienteAngular,b,pontoIrradiacao,9999);
+            desenhaReta(coeficienteAngular, b, pontoIrradiacao, 9999);
 
-            Ponto pontoFinal = new Ponto(Math.cos(coeficienteAngular)*999,Math.sin(coeficienteAngular)*999);
-            vetor.add(new Vetor(new Ponto(pontoIrradiacao,0),pontoFinal));
+            Ponto pontoFinal = new Ponto(Math.cos(coeficienteAngular) * 999, Math.sin(coeficienteAngular) * 999);
+            vetor.add(new Vetor(new Ponto(pontoIrradiacao, 0), pontoFinal));
         }
 
     }
 
-    private void desenhaReta(double a, double b, double inicio, double fim)
-    {
+    private void desenhaReta(double a, double b, double inicio, double fim) {
 
     }
-    private double somatoriaVetor(ArrayList<Ponto> vetor)
-    {
+
+    private double somatoriaVetor(ArrayList<Ponto> vetor) {
         //Considerando apenas o X
-        double contador=0;
-        for(Ponto p : vetor)
-        {
-         contador+=p.getX();
+        double contador = 0;
+        for (Ponto p : vetor) {
+            contador += p.getX();
         }
         return contador;
     }
+
     private void intervalos(ArrayList<Ponto> polos, ArrayList<Ponto> zeros, ArrayList<Vetor> vetor) {
         ArrayList<Ponto> todos = (ArrayList<Ponto>) polos.clone();
 
         todos.addAll(zeros);
-        Ponto anterior = new Ponto(-10,0);
+        Ponto anterior = new Ponto(-10, 0);
         //Se pá tem que mudar ??
         Collections.sort(todos);
 
         for (Ponto i : todos) {
             Log.i("Vetor1", i.getX() + "\t" + i.getY());
-            if(verificaPolosEZeroAdireita(todos,i.getX())){
-                try{
-                    Log.i("Vetor1","add aqui  atual X"+i.getX() + "\tAnterior x" + anterior.getX());
+            if (verificaPolosEZeroAdireita(todos, i.getX())) {
+                try {
+                    Log.i("Vetor1", "add aqui  atual X" + Math.round(i.getX()) + "\tAnterior x" + Math.round(anterior.getX()));
                     Vetor v = new Vetor(anterior, i);
                     vetor.add(v);
 
                     /*Desenha para esquerda*/
                     //desenhaReta(0,0,i.getX(),anterior.getX());
 
-                }catch (Exception e )
-                {
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
 
@@ -173,25 +210,26 @@ public class ResolveRaizes extends AsyncTask {
             anterior = i;
         }
     }
-    private boolean verificaPolosEZeroAdireita(ArrayList<Ponto> todos, double ponto)
-    {
 
-        if(contaADireita(todos,ponto)%2==0)
+    private boolean verificaPolosEZeroAdireita(ArrayList<Ponto> todos, double ponto) {
+        if (contaADireita(todos, ponto) % 2 == 0)
             return false;
         return true;
     }
-    private int contaADireita(ArrayList<Ponto> vetor, double valor)
-    {
-        int contador=0;
-        for(Ponto v : vetor)
-        {
-            if(v.getX()>valor)
-            {
-                contador = contador+1;
+
+    private int contaADireita(ArrayList<Ponto> vetor, double valor) {
+        int contador = 0;
+        for (Ponto v : vetor) {
+            if (v.getX() > valor) {
+                contador = contador + 1;
             }
         }
         return contador;
     }
+
+
+
+
     //trying
     private double[] trataString(String funcao) {
 
