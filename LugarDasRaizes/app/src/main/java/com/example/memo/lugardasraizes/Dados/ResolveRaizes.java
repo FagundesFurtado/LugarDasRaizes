@@ -1,11 +1,9 @@
 package com.example.memo.lugardasraizes.Dados;
 
-import android.content.Intent;
 import android.os.AsyncTask;
 import android.util.Log;
 
 import com.example.memo.lugardasraizes.Adapter.RespostaGrafico;
-import com.example.memo.lugardasraizes.Fragment.Inicio;
 import com.example.memo.lugardasraizes.Model.Ponto;
 import com.example.memo.lugardasraizes.Model.Termo;
 
@@ -35,6 +33,7 @@ public class ResolveRaizes extends AsyncTask {
     public ResolveRaizes(RespostaGrafico respostaGrafico) {
         r = respostaGrafico;
         Log.i(TAG, "Iniciando solucao do problema");
+
         this.execute();
 
     }
@@ -49,15 +48,23 @@ public class ResolveRaizes extends AsyncTask {
 
         Log.i(TAG, "Vetor Equacao");
         for (double d : equacao) {
-            Log.i(TAG, "" + d);
+            Log.i(TAG, "Ponto " + d);
         }
         if (equacao.length != 1) {
+            for(double d : equacao)
+            {
+                Log.i("Raizes","Funcao -> "+d);
+            }
             Complex[] raizes = laguerreSolver.solveAllComplex(equacao, 0);
             for (Complex c : raizes) {
+
+                Log.i("Raizes",c.toString());
                 pontos.add(new Ponto(c.getReal(), c.getImaginary(), polo));
             }
         }
     }
+
+
 
 
     @Override
@@ -74,13 +81,90 @@ public class ResolveRaizes extends AsyncTask {
         double[] equacao = new double[]{0, 2, 3, 1};
         //trataString(objects[0].toString());
 
+        /*Verifica pontos a direita*/
+        intervalos(polosVetor,zerosVetor);
 
+        /*Assintotas*/
+        assintotas(polosVetor,zerosVetor);
         r.grafico(polosVetor, zerosVetor);
 
         Log.i(TAG, "Finalizou AsynkTask");
         return null;
     }
 
+    private void assintotas(ArrayList<Ponto> polos, ArrayList<Ponto> zeros)
+    {
+        double somatoriaRaizesPolo = somatoriaVetor(polos);
+        double somatoriaRaizesZero = somatoriaVetor(zeros);
+        double quantidadeDeAssintotas = polos.size()-zeros.size();
+        double pontoIrradiacao = (somatoriaRaizesPolo-somatoriaRaizesZero)/(quantidadeDeAssintotas);
+        double direcaoDasAssintotas = 180/quantidadeDeAssintotas;
+       // ArrayList<ArrayList<Ponto>> assintotas = new ArrayList<>();
+        //Desenha assintota
+        for(int i =0; i<quantidadeDeAssintotas;i++)
+        {
+            //Coeficiente angular
+            double coeficienteAngular = Math.atan((360*i-180)/quantidadeDeAssintotas);
+            double b = 0;
+            desenhaReta(coeficienteAngular,b,pontoIrradiacao,9999);
+
+        }
+
+    }
+
+    private void desenhaReta(double a, double b, double inicio, double fim)
+    {
+
+    }
+    private double somatoriaVetor(ArrayList<Ponto> vetor)
+    {
+        //Considerando apenas o X
+        double contador=0;
+        for(Ponto p : vetor)
+        {
+         contador+=p.getX();
+        }
+        return contador;
+    }
+    private void intervalos(ArrayList<Ponto> polos, ArrayList<Ponto> zeros) {
+        ArrayList<Ponto> todos = (ArrayList<Ponto>) polos.clone();
+        todos.addAll(zeros);
+        Ponto anterior = new Ponto(-999,0);
+
+        for (Ponto i : todos) {
+            Log.i("Todos", i.getX() + "\t" + i.getY());
+            if(verificaPolosEZeroAdireita(todos,i.getX())){
+                try{
+                    /*Desenha para esquerda*/
+                    desenhaReta(0,0,i.getX(),anterior.getX());
+                    anterior = i;
+                }catch (Exception e )
+                {
+                    e.printStackTrace();
+                }
+            }
+
+        }
+    }
+    private boolean verificaPolosEZeroAdireita(ArrayList<Ponto> todos, double ponto)
+    {
+
+        if(contaADireita(todos,ponto)%2==0)
+            return false;
+        return true;
+    }
+    private int contaADireita(ArrayList<Ponto> vetor, double valor)
+    {
+        int contador=0;
+        for(Ponto v : vetor)
+        {
+            if(v.getX()>valor)
+            {
+                contador = contador+1;
+            }
+        }
+        return contador;
+    }
     //trying
     private double[] trataString(String funcao) {
 
