@@ -12,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.memo.lugardasraizes.Adapter.ComunicacaoGrafico;
 import com.example.memo.lugardasraizes.Adapter.RespostaGrafico;
 import com.example.memo.lugardasraizes.Dados.ResolveRaizes;
 import com.example.memo.lugardasraizes.Model.Ponto;
@@ -20,6 +21,7 @@ import com.example.memo.lugardasraizes.R;
 import com.jjoe64.graphview.GraphView;
 import com.jjoe64.graphview.series.DataPoint;
 import com.jjoe64.graphview.series.DataPointInterface;
+import com.jjoe64.graphview.series.LineGraphSeries;
 import com.jjoe64.graphview.series.PointsGraphSeries;
 
 import java.util.ArrayList;
@@ -27,7 +29,7 @@ import java.util.Collections;
 import java.util.Comparator;
 
 
-public class GraficoFragment extends Fragment implements RespostaGrafico, Comparator {
+public class GraficoFragment extends Fragment implements RespostaGrafico, Comparator, ComunicacaoGrafico {
 
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
@@ -36,6 +38,7 @@ public class GraficoFragment extends Fragment implements RespostaGrafico, Compar
     private String mParam1;
     private String mParam2;
     private GraphView graphView;
+    private final String TAG = "GraficoFragmentLog";
 
 
     private OnFragmentInteractionListener mListener;
@@ -88,11 +91,17 @@ public class GraficoFragment extends Fragment implements RespostaGrafico, Compar
         graphView.getViewport().setScalable(true);
         graphView.getViewport().setScalableY(true);
 
-
-        ResolveRaizes r = new ResolveRaizes(this);
+        graphView.removeAllSeries();
+        ResolveRaizes r = new ResolveRaizes(this, this);
 
 
         return v;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        graphView.removeAllSeries();
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -125,8 +134,8 @@ public class GraficoFragment extends Fragment implements RespostaGrafico, Compar
                 @Override
                 public void draw(Canvas canvas, Paint paint, float x, float y, DataPointInterface dataPoint) {
                     paint.setStrokeWidth(10);
-                    Log.i("Valores",x+"\t"+y);
-                    Log.i("Valores","> "+(x - 20)+"\t"+(y + 20));
+                    Log.i("Valores", x + "\t" + y);
+                    Log.i("Valores", "> " + (x - 20) + "\t" + (y + 20));
                     canvas.drawLine(x - 20, y - 20, x + 20, y + 20, paint);
                     canvas.drawLine(x + 20, y - 20, x - 20, y + 20, paint);
                 }
@@ -138,28 +147,20 @@ public class GraficoFragment extends Fragment implements RespostaGrafico, Compar
 
 
     }
-    private PointsGraphSeries<DataPoint> desenhaReta(final Ponto pontoInicial, final Ponto pontoFinal) {
 
+    private LineGraphSeries<DataPoint> desenhaReta(final Ponto pontoInicial, final Ponto pontoFinal) {
 
-        final ArrayList<DataPoint> ponto = new ArrayList<>();
+        if (pontoFinal.getX() > pontoInicial.getX()) {
+            return ordenaPontos(pontoInicial, pontoFinal);
+        }
+        return ordenaPontos(pontoFinal, pontoInicial);
+    }
 
-        ponto.add(new DataPoint(pontoInicial.getX(), pontoInicial.getY()));
-        ponto.add(new DataPoint(pontoFinal.getX(), pontoFinal.getY()));
-        Collections.sort(ponto, this);
-        PointsGraphSeries<DataPoint> series = new PointsGraphSeries<>(ponto.toArray(new DataPoint[ponto.size()]));
-        series.setColor(Color.RED);
-        series.setCustomShape(new PointsGraphSeries.CustomShape() {
-            @Override
-            public void draw(Canvas canvas, Paint paint, float x, float y, DataPointInterface dataPoint) {
-                paint.setStrokeWidth(10);
-
-                canvas.drawLine((float) (x-pontoFinal.getX()),(float) (y-pontoFinal.getY()),(float)(x-pontoInicial.getX()),
-                        (float)(y-pontoInicial.getY()), paint);
-             //   Log.i("Desenhou", "DEsenhou no ponto x"+pontoFinal.getX()+"\tx"+pontoInicial.getX()+"\ty"+pontoInicial.getY());
-            }
-        });
-
-
+    private LineGraphSeries ordenaPontos(Ponto a, Ponto b) {
+        LineGraphSeries<DataPoint> series = new LineGraphSeries<>(new DataPoint[]{
+                new DataPoint(a.getX(), a.getY()),
+                new DataPoint(b.getX(), b.getY())});
+        series.setColor(Color.YELLOW);
 
         return series;
     }
@@ -186,13 +187,11 @@ public class GraficoFragment extends Fragment implements RespostaGrafico, Compar
     public void grafico(ArrayList<Ponto> polos, ArrayList<Ponto> zeros, ArrayList<Vetor> vetor) {
         graphView.removeAllSeries();
 
-        for(Vetor v : vetor)
-        {
-            graphView.addSeries(desenhaReta(v.getPontoInicial(),v.getPontoFinal()));
+        for (Vetor v : vetor) {
+            graphView.addSeries(desenhaReta(v.getPontoInicial(), v.getPontoFinal()));
         }
         graphView.addSeries(criaPontosSerie(polos));
         graphView.addSeries(criaPontosSerie(zeros));
-
 
 
     }
@@ -212,7 +211,84 @@ public class GraficoFragment extends Fragment implements RespostaGrafico, Compar
         return 0;
     }
 
+    @Override
+    public void zeraGrafico() {
+        graphView.removeAllSeries();
+    }
 
+    @Override
+    public void printaPolo(ArrayList<Ponto> vetor) {
+
+        Log.i(TAG, "PrintaPolos");
+        ArrayList<DataPoint> ponto = new ArrayList<>();
+        for (Ponto p : vetor) {
+            Log.i("PolosDaEquacao", p.getX() + " " + p.getY());
+            ponto.add(new DataPoint(p.getX(), p.getY()));
+        }
+        Collections.sort(ponto, this);
+        Log.i("TamhanhoPolos", "" + ponto.size());
+        PointsGraphSeries<DataPoint> series = new PointsGraphSeries<>(ponto.toArray(new DataPoint[ponto.size()]));
+
+        series.setColor(Color.GREEN);
+        series.setCustomShape(new PointsGraphSeries.CustomShape() {
+            @Override
+            public void draw(Canvas canvas, Paint paint, float x, float y, DataPointInterface dataPoint) {
+                paint.setStrokeWidth(10);
+                Log.i("Valores", x + "\t" + y);
+                Log.i("Valores", "> " + (x - 20) + "\t" + (y + 20));
+                canvas.drawLine(x - 20, y - 20, x + 20, y + 20, paint);
+                canvas.drawLine(x + 20, y - 20, x - 20, y + 20, paint);
+            }
+        });
+        graphView.addSeries(series);
+    }
+
+    public void limpaGrafico() {
+        graphView.removeAllSeries();
+
+    }
+
+    @Override
+    public void printaZero(ArrayList<Ponto> vetor) {
+
+        Log.i(TAG, "PrintaZeros");
+
+        ArrayList<DataPoint> ponto = new ArrayList<>();
+        for (Ponto p : vetor) {
+            ponto.add(new DataPoint(p.getX(), p.getY()));
+        }
+        Collections.sort(ponto, this);
+        PointsGraphSeries<DataPoint> series = new PointsGraphSeries<>(ponto.toArray(new DataPoint[ponto.size()]));
+
+        series.setColor(Color.BLUE);
+
+        graphView.addSeries(series);
+    }
+
+    @Override
+    public void printaIntersecao(ArrayList<Vetor> vetor) {
+        Log.i(TAG, "printaIntersecao");
+        for (Vetor v : vetor) {
+            graphView.addSeries(desenhaReta(v.getPontoInicial(), v.getPontoFinal()));
+        }
+        //  graphView.addSeries(desenhaReta(new Ponto(10,10),new Ponto(1000,1000)));
+
+
+    }
+
+    @Override
+    public void printaAssintotas(ArrayList<Vetor> vetor) {
+        for (Vetor v : vetor) {
+            graphView.addSeries(desenhaReta(v.getPontoInicial(), v.getPontoFinal()));
+        }
+        Log.i(TAG, "printaAssintotas");
+
+    }
+
+    @Override
+    public void printaCurva(ArrayList<Vetor> vetor) {
+        Log.i(TAG, "printaCurva");
+    }
 
 
     public interface OnFragmentInteractionListener {

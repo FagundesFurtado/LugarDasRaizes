@@ -3,11 +3,13 @@ package com.example.memo.lugardasraizes.Dados;
 import android.os.AsyncTask;
 import android.util.Log;
 
+import com.example.memo.lugardasraizes.Adapter.ComunicacaoGrafico;
 import com.example.memo.lugardasraizes.Adapter.RespostaGrafico;
 import com.example.memo.lugardasraizes.Model.Ponto;
 import com.example.memo.lugardasraizes.Model.Termo;
 import com.example.memo.lugardasraizes.Model.Vetor;
 
+import org.apache.commons.math3.analysis.UnivariateFunction;
 import org.apache.commons.math3.analysis.polynomials.PolynomialFunction;
 import org.apache.commons.math3.analysis.solvers.LaguerreSolver;
 import org.apache.commons.math3.complex.Complex;
@@ -22,7 +24,9 @@ public class ResolveRaizes extends AsyncTask {
     private static ResolveRaizes singleton = new ResolveRaizes();
     private final String TAG = "Grafico";
     private RespostaGrafico r;
+    private ComunicacaoGrafico graph;
     private Grafico grafico = Grafico.getInstance();
+    private ArrayList<Vetor> intersecoes = new ArrayList<>();
 
 
     private ResolveRaizes() {
@@ -32,8 +36,9 @@ public class ResolveRaizes extends AsyncTask {
         return singleton;
     }
 
-    public ResolveRaizes(RespostaGrafico respostaGrafico) {
+    public ResolveRaizes(RespostaGrafico respostaGrafico, ComunicacaoGrafico comunicacaoGrafico) {
         r = respostaGrafico;
+        graph = comunicacaoGrafico;
         Log.i(TAG, "Iniciando solucao do problema");
 
         this.execute();
@@ -43,7 +48,7 @@ public class ResolveRaizes extends AsyncTask {
 
     private void adicionaRaizesDaEquacao(double[] equacao, ArrayList<Ponto> pontos, boolean polo) {
 
-        //PolynomialFunction polynomial = new PolynomialFunction(equacao);
+        //   PolynomialFunction polynomial = new PolynomialFunction(equacao);
 
         LaguerreSolver laguerreSolver = new LaguerreSolver();
 
@@ -64,109 +69,171 @@ public class ResolveRaizes extends AsyncTask {
             }
         }
     }
-    private boolean verificaImaginario(ArrayList<Ponto> vetor){
-        for(Ponto p : vetor){
-            if (p.getY()==0){
+
+    private boolean verificaImaginario(ArrayList<Ponto> vetor) {
+        for (Ponto p : vetor) {
+            if (p.getY() == 0) {
                 return false;
             }
         }
         return true;
     }
 
-    private ArrayList<Ponto> raizesReais(ArrayList<Ponto> vetor){
+    private ArrayList<Ponto> raizesReais(ArrayList<Ponto> vetor) {
         ArrayList<Ponto> vetorReais = new ArrayList<>();
-        for(Ponto p :vetor){
-            if(p.getY()==0){
+        for (Ponto p : vetor) {
+            if (p.getY() == 0) {
                 vetorReais.add(p);
             }
         }
         return vetorReais;
     }
 
-    private void desenhaIntersecoesEntreRaizes( ArrayList<Ponto> vetor){
+    private void desenhaIntersecoesEntreRaizes(ArrayList<Ponto> vetor) {
         Collections.sort(vetor);
         ArrayList<Vetor> intersecoes = new ArrayList<>();
         Ponto anterior = null;
-        for(int i =0; i<vetor.size(); i++){
-            if(i%2!=0){
+        for (int i = 0; i < vetor.size(); i++) {
+            if (i % 2 != 0) {
                 intersecoes.add(new Vetor(vetor.get(i), anterior));
             }
-            anterior=vetor.get(i);
+            anterior = vetor.get(i);
         }
-
+        if (vetor.size() % 2 != 0) {
+            intersecoes.add(new Vetor(new Ponto(vetor.get(vetor.size() - 1).getX() * 2, 0), vetor.get(vetor.size() - 1)));
+        }
+        this.intersecoes = intersecoes;
+        graph.printaIntersecao(intersecoes);
     }
 
 
-    private void resolveEquacaoSoComZeros(double [] polos){
+    private void resolveEquacaoSoComPolos(double[] polos) {
         ArrayList<Ponto> polosVetor = new ArrayList<>();
+        for (Double d : polos) {
+            Log.i("ValoresPolos2", d + "");
+        }
         adicionaRaizesDaEquacao(polos, polosVetor, true);
-        if(!verificaImaginario(polosVetor)){
+        graph.printaPolo(polosVetor);
+        if (!verificaImaginario(polosVetor)) {
             desenhaIntersecoesEntreRaizes(raizesReais(polosVetor));
         }
-        
-        
+
+        if (!assintotas(polosVetor, new ArrayList<Ponto>())) {
+            double[] vetorDeDerivada = derivada(polos);
+            Complex[] raizesDaDerivada = raizes(vetorDeDerivada);
+            double pontoQueCortaEixoReal = raizesReais(raizesDaDerivada);
+
+
+        }
+
     }
-    
+
+    private double raizesReais(Complex[] vetor) {
+        double pontoOndeCortaEixoReal = 0;
+        ArrayList<Double> pontosReais = new ArrayList<>();
+        for (Complex c : vetor) {
+            if (Math.round(c.getImaginary()) == 0) {
+                pontosReais.add((double) Math.round(c.getReal()));
+            }
+        }
+
+        for (Vetor v : intersecoes) {
+            for (Double d : pontosReais) {
+                if (v.getPontoFinal().getX() > d && v.getPontoInicial().getX() < d) {
+                    Log.i("PontoQueCorta", "" + d);
+                    return d;
+                }
+            }
+
+        }
+
+
+        return pontoOndeCortaEixoReal;
+    }
+
+    private double[] derivada(double[] equacao) {
+        PolynomialFunction polynomial = new PolynomialFunction(equacao);
+        PolynomialFunction derivada = polynomial.polynomialDerivative();
+        return derivada.getCoefficients();
+
+    }
+
+    private Complex[] raizes(double[] equacao) {
+
+        LaguerreSolver laguerreSolver = new LaguerreSolver();
+        Complex[] raizes = laguerreSolver.solveAllComplex(equacao, 0);
+        return raizes;
+    }
 
     @Override
     protected Object doInBackground(Object[] objects) {
 
-        
+
         double zeros[] = trataString(grafico.numerador);
         double polos[] = trataString(grafico.denominador);
+        resolveEquacaoSoComPolos(polos);
 
-        ArrayList<Ponto> polosVetor = new ArrayList<>();
-        ArrayList<Ponto> zerosVetor = new ArrayList<>();
-        adicionaRaizesDaEquacao(zeros, zerosVetor, false);
-        adicionaRaizesDaEquacao(polos, polosVetor, true);
-        
-        
-        
-        double[] equacao = new double[]{0, 2, 3, 1};
-        //trataString(objects[0].toString());
-
-        /*Verifica pontos a direita*/
-        ArrayList<Vetor> vetor = new ArrayList<>();
-        intervalos(polosVetor, zerosVetor, vetor);
-
-        /*Assintotas*/
-        assintotas(polosVetor, zerosVetor, vetor);
-        vetor.add(new Vetor(new Ponto(10, 10), new Ponto(200, 200)));
-        r.grafico(polosVetor, zerosVetor, vetor);
+        //
+//        ArrayList<Ponto> polosVetor = new ArrayList<>();
+//        ArrayList<Ponto> zerosVetor = new ArrayList<>();
+//        adicionaRaizesDaEquacao(zeros, zerosVetor, false);
+//        adicionaRaizesDaEquacao(polos, polosVetor, true);
+//
+//
+//        double[] equacao = new double[]{0, 2, 3, 1};
+//        //trataString(objects[0].toString());
+//
+//        /*Verifica pontos a direita*/
+//        ArrayList<Vetor> vetor = new ArrayList<>();
+//        intervalos(polosVetor, zerosVetor, vetor);
+//
+//        /*Assintotas*/
+//        assintotas(polosVetor, zerosVetor);
+//        vetor.add(new Vetor(new Ponto(10, 10), new Ponto(200, 200)));
+//        r.grafico(polosVetor, zerosVetor, vetor);
 
         Log.i(TAG, "Finalizou AsynkTask");
         return null;
     }
 
-    private void assintotas(ArrayList<Ponto> polos, ArrayList<Ponto> zeros, ArrayList<Vetor> vetor) {
+    private boolean assintotas(ArrayList<Ponto> polos, ArrayList<Ponto> zeros) {
         double somatoriaRaizesPolo = somatoriaVetor(polos);
         double somatoriaRaizesZero = somatoriaVetor(zeros);
         double quantidadeDeAssintotas = polos.size() - zeros.size();
+
         double pontoIrradiacao = (somatoriaRaizesPolo - somatoriaRaizesZero) / (quantidadeDeAssintotas);
         double direcaoDasAssintotas = 180 / quantidadeDeAssintotas;
-        // ArrayList<ArrayList<Ponto>> assintotas = new ArrayList<>();
-        //Desenha assintota
-        for (Ponto p : polos) {
-            Log.i("ValoresCOmparativos", "POLO " + p.getX());
-        }
-        for (Ponto p : zeros) {
-            Log.i("ValoresCOmparativos", "ZERO " + p.getX());
-        }
-        Log.i("ValoresCOmparativos", "SOMA POLO " + somatoriaRaizesPolo);
-        Log.i("ValoresCOmparativos", "SOMA ZERO " + somatoriaRaizesZero);
-        Log.i("ValoresCOmparativos", "QUANTIDADE DE ASSINTOTAS " + quantidadeDeAssintotas);
-        Log.i("ValoresCOmparativos", "SPONTO DE IRRADIACAO " + pontoIrradiacao);
+        Log.i("PontoIrradiacao", "" + pontoIrradiacao);
+
+        ArrayList<Vetor> vetor = new ArrayList<>();
+        if (quantidadeDeAssintotas != 2) {
+            for (int i = 0; i < quantidadeDeAssintotas; i++) {
+                double angulo = (360 * i - 180) / quantidadeDeAssintotas;
+                double coeficienteAngular = Math.round(Math.tan(Math.toRadians(angulo)));
+                Log.i("Angulos", "Angulo " + i + "\t " + ((360 * i - 180) / quantidadeDeAssintotas) + "\tcoeficiente " + coeficienteAngular);
+                //  Ponto pontoFinal = new Ponto()
+
+                int m = 900;
+
+                Log.i("Calculos", "Coeficiente :" + coeficienteAngular);
 
 
-        for (int i = 0; i < quantidadeDeAssintotas; i++) {
-            //Coeficiente angular
-            double coeficienteAngular = Math.atan((360 * i - 180) / quantidadeDeAssintotas);
-            double b = 0;
-            desenhaReta(coeficienteAngular, b, pontoIrradiacao, 9999);
+                Ponto pontoFinal;
+                if (angulo != 180) {
+                  pontoFinal=  new Ponto(m * (Math.cos(Math.toRadians(angulo))), pontoIrradiacao * Math.tan(angulo));
+                    //   else  new Ponto( m*(Math.cos(Math.toRadians(angulo))), m*coeficienteAngular));
+                    Log.i("Calculos", m * Math.round(Math.cos(Math.toRadians(angulo))) + " " + coeficienteAngular * m);
+                    vetor.add(new Vetor(new Ponto(pontoIrradiacao, 0), pontoFinal));
+                }
+            }
+            graph.printaAssintotas(vetor);
 
-            Ponto pontoFinal = new Ponto(Math.cos(coeficienteAngular) * 999, Math.sin(coeficienteAngular) * 999);
-            vetor.add(new Vetor(new Ponto(pontoIrradiacao, 0), pontoFinal));
+            return true;
         }
+        return false;
+    }
+
+    private void routh() {
 
     }
 
@@ -226,8 +293,6 @@ public class ResolveRaizes extends AsyncTask {
         }
         return contador;
     }
-
-
 
 
     //trying

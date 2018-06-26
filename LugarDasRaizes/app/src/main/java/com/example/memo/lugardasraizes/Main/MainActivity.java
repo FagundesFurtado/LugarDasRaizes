@@ -85,7 +85,9 @@ public class MainActivity extends AppCompatActivity {
             if (f instanceof GraficoFragment) {
                 GraficoFragment graficoFragment = (GraficoFragment) f;
 
-                ResolveRaizes resolveRaizes = new ResolveRaizes(graficoFragment);
+                graficoFragment.limpaGrafico();
+
+                ResolveRaizes resolveRaizes = new ResolveRaizes(graficoFragment, graficoFragment);
             }
 
         }

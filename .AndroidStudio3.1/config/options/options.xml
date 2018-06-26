@@ -5,9 +5,9 @@
     <property name="AndroidInitConfigurator.V1" value="true" />
     <property name="installed.kotlin.plugin.version" value="1.2.30-release-Studio3.1-1" />
     <property name="android-component-compatibility-check" value="1529429787760" />
-    <property name="lastTip" value="91" />
+    <property name="lastTip" value="92" />
     <property name="newly.installed.api.level" value="22" />
-    <property name="file.gist.reindex.count" value="991" />
+    <property name="file.gist.reindex.count" value="992" />
     <property name="ATTACHED_TOOL_WINDOW.DEFAULT.NELE_EDITOR.PROPERTIES.LEFT" value="false" />
     <property name="ATTACHED_TOOL_WINDOW.DEFAULT.NELE_EDITOR.PROPERTIES.SPLIT" value="false" />
     <property name="ATTACHED_TOOL_WINDOW.DEFAULT.NELE_EDITOR.PROPERTIES.AUTO_HIDE" value="false" />
@@ -29,7 +29,7 @@
     <property name="MemberChooser.showClasses" value="true" />
     <property name="MemberChooser.copyJavadoc" value="false" />
     <property name="Copy.OpenInEditor" value="true" />
-    <property name="LOG_FILTER_HISTORY" value="Vetor2&#10;Vetor1&#10;Todos&#10;ola&#10;oie" />
+    <property name="LOG_FILTER_HISTORY" value="PontoIrradiacao&#10;pontoI&#10;Calculos&#10;polos&#10;Angulos" />
     <property name="ATTACHED_TOOL_WINDOW.DEFAULT.Preview.PALETTE.LEFT" value="true" />
     <property name="ATTACHED_TOOL_WINDOW.Preview.PALETTE.LEFT" value="true" />
     <property name="ATTACHED_TOOL_WINDOW.DEFAULT.Preview.PALETTE.SPLIT" value="false" />
@@ -56,9 +56,11 @@
     <property name="PLUGIN_FILTER" value="wakatime" />
     <property name="build.toolwindow.Sync.selection.state" value="com.intellij.build.BuildTreeConsoleView" />
     <property name="build.toolwindow.Build.selection.state" value="com.intellij.build.BuildTreeConsoleView" />
-    <property name="CommitChangeListDialog.DETAILS_SPLITTER_PROPORTION_2" value="0.670229" />
+    <property name="CommitChangeListDialog.DETAILS_SPLITTER_PROPORTION_2" value="0.6824427" />
     <property name="LayoutCode.optimizeImports" value="false" />
     <property name="LayoutCode.rearrangeEntriesJava" value="false" />
     <property name="LayoutCode.processChangedText" value="false" />
+    <property name="studio.activity.count" value="87" />
+    <property name="SearchEveryWhereHistory" value="" />
   </component>
 </application>
