@@ -2,8 +2,8 @@
   <component name="RecentProjectsManager">
     <option name="recentPaths">
       <list>
-        <option value="$USER_HOME$/LugarDasRaizes" />
         <option value="$USER_HOME$/AndroidStudioProjects/ProjetoApp" />
+        <option value="$USER_HOME$/LugarDasRaizes" />
         <option value="D:/git/LugarDasRaizes-master" />
         <option value="D:/git/LugarDasRaizes" />
         <option value="$USER_HOME$/Documents/controle/LugarDasRaizes" />
@@ -20,9 +20,10 @@
     <option name="openPaths">
       <list>
         <option value="$USER_HOME$/LugarDasRaizes" />
+        <option value="$USER_HOME$/AndroidStudioProjects/ProjetoApp" />
       </list>
     </option>
-    <option name="lastPath" value="$USER_HOME$/LugarDasRaizes" />
+    <option name="lastPath" value="$USER_HOME$/AndroidStudioProjects/ProjetoApp" />
     <option name="pid" value="" />
     <option name="additionalInfo">
       <map>
@@ -54,8 +55,8 @@
               <option name="build" value="AI-173.4819257" />
               <option name="productionCode" value="AI" />
               <option name="binFolder" value="$APPLICATION_HOME_DIR$/bin" />
-              <option name="projectOpenTimestamp" value="1529779921267" />
-              <option name="buildTimestamp" value="1528133429273" />
+              <option name="projectOpenTimestamp" value="1530142817948" />
+              <option name="buildTimestamp" value="1528133437178" />
             </RecentProjectMetaInfo>
           </value>
         </entry>
@@ -142,8 +143,8 @@
               <option name="build" value="AI-173.4819257" />
               <option name="productionCode" value="AI" />
               <option name="binFolder" value="$APPLICATION_HOME_DIR$/bin" />
-              <option name="projectOpenTimestamp" value="1530048927490" />
-              <option name="buildTimestamp" value="1528133431884" />
+              <option name="projectOpenTimestamp" value="1530142817948" />
+              <option name="buildTimestamp" value="1528133437178" />
             </RecentProjectMetaInfo>
           </value>
         </entry>

@@ -1,65 +1,65 @@
 <application>
   <component name="StatisticsApplicationUsages">
-    <group name="run-configuration-type">
-      <project id="LugarDasRaizes" values="AndroidRunConfigurationType" collectionTime="1530035145689" />
-      <project id="ProjetoApp" values="AndroidRunConfigurationType" collectionTime="1529973043876" />
+    <group name="Run Dashboard">
+      <project id="LugarDasRaizes" values="run.dashboard.disabled" collectionTime="1530035145821" />
+      <project id="ProjetoApp" values="run.dashboard.disabled" collectionTime="1529973044702" />
     </group>
-    <group name="module type">
-      <project id="LugarDasRaizes" values="JAVA_MODULE" collectionTime="1530035145689" />
-      <project id="ProjetoApp" values="JAVA_MODULE" collectionTime="1529973043873" />
+    <group name="Git">
+      <project id="LugarDasRaizes" values="config.push.update.all.roots.enabled,config.ssh.enabled,config.repo.sync.NOT_DECIDED,data.local.branches.count.1,config.update.type.BRANCH_DEFAULT,config.save.policy.STASH,config.warn.about.crlf.enabled,data.remotes.in.project.1,config.push.autoupdate.disabled,data.remote.branches.count.1,version.2.16.2-CYGWIN,config.warn.about.detached.enabled,data.remote.servers.github.com.1,config.force.push.enabled,config.cherry-pick.autocommit.disabled" collectionTime="1530035145886" />
+      <project id="ProjetoApp" values="config.cherry-pick.autocommit.disabled,version.2.16.2-CYGWIN,data.remotes.in.project.1,config.repo.sync.NOT_DECIDED,config.update.type.BRANCH_DEFAULT,data.remote.servers.github.com.1,config.warn.about.crlf.enabled,config.ssh.enabled,config.push.update.all.roots.enabled,data.local.branches.count.1,config.warn.about.detached.enabled,config.force.push.enabled,config.push.autoupdate.disabled,data.remote.branches.count.1,config.save.policy.STASH" collectionTime="1529973045564" />
     </group>
     <group name="vcs">
       <project id="LugarDasRaizes" values="Git" collectionTime="1530035145689" />
       <project id="ProjetoApp" values="Git" collectionTime="1529973043865" />
     </group>
-    <group name="VCS Log 2">
-      <project id="LugarDasRaizes" values="data.branches.count.1+,data.commit.count.1+,data.git.root.count.1,data.users.count.1+" collectionTime="1530035145876" />
-      <project id="ProjetoApp" values="data.git.root.count.1,data.commit.count.1+,data.branches.count.1+,data.users.count.1+" collectionTime="1529973045556" />
-    </group>
     <group name="file-type">
-      <project id="LugarDasRaizes" values="PLAIN_TEXT,ProGuard File,IDEA_MODULE,ARCHIVE,XML,Groovy,Properties,Images,JAVA" collectionTime="1530035145821" />
-      <project id="ProjetoApp" values="JAVA,Groovy,ARCHIVE,IDEA_MODULE,Images,PLAIN_TEXT,Properties,JSON,UNKNOWN,XML,ProGuard File" collectionTime="1529973044701" />
+      <project id="LugarDasRaizes" values="Images,IDEA_MODULE,ARCHIVE,Groovy,PLAIN_TEXT,XML,JAVA,Properties,ProGuard File" collectionTime="1530035145821" />
+      <project id="ProjetoApp" values="JSON,UNKNOWN,Images,ProGuard File,JAVA,Groovy,Properties,XML,IDEA_MODULE,ARCHIVE,PLAIN_TEXT" collectionTime="1529973044701" />
     </group>
-    <group name="Run Dashboard">
-      <project id="LugarDasRaizes" values="run.dashboard.disabled" collectionTime="1530035145821" />
-      <project id="ProjetoApp" values="run.dashboard.disabled" collectionTime="1529973044702" />
-    </group>
-    <group name="kotlin.formatter">
-      <project id="LugarDasRaizes" values="kotlin.formatter.kind.idea_default,kotlin.formatter.defaults.null" collectionTime="1530035146506" />
-      <project id="ProjetoApp" values="kotlin.formatter.kind.idea_default,kotlin.formatter.defaults.null" collectionTime="1529973049374" />
+    <group name="run-configuration-type">
+      <project id="LugarDasRaizes" values="AndroidRunConfigurationType" collectionTime="1530035145689" />
+      <project id="ProjetoApp" values="AndroidRunConfigurationType" collectionTime="1529973043876" />
     </group>
     <group name="module-language-level">
       <project id="LugarDasRaizes" values="JDK_1_7" collectionTime="1530035145884" />
       <project id="ProjetoApp" values="JDK_1_7" collectionTime="1529973045562" />
     </group>
+    <group name="kotlin.formatter">
+      <project id="LugarDasRaizes" values="kotlin.formatter.defaults.null,kotlin.formatter.kind.idea_default" collectionTime="1530035146506" />
+      <project id="ProjetoApp" values="kotlin.formatter.kind.idea_default,kotlin.formatter.defaults.null" collectionTime="1529973049374" />
+    </group>
+    <group name="VCS Log 2">
+      <project id="LugarDasRaizes" values="data.branches.count.1+,data.users.count.1+,data.commit.count.1+,data.git.root.count.1" collectionTime="1530035145876" />
+      <project id="ProjetoApp" values="data.branches.count.1+,data.commit.count.1+,data.git.root.count.1,data.users.count.1+" collectionTime="1529973045556" />
+    </group>
     <group name="frameworks">
-      <project id="LugarDasRaizes" values="android-gradle,java-gradle,android" collectionTime="1530035145689" />
+      <project id="LugarDasRaizes" values="android-gradle,android,java-gradle" collectionTime="1530035145689" />
       <project id="ProjetoApp" values="android-gradle,java-gradle,android" collectionTime="1529973043865" />
     </group>
-    <group name="vcs-stats">
-      <project id="LugarDasRaizes" values="unversioned.files.count.100K+,vcs.roots.count.1,has.default.vcs.root.mapping.disabled,ignored.files.count.1,active.changelists.count.1" collectionTime="1530035145689" />
-      <project id="ProjetoApp" values="vcs.roots.count.1,has.default.vcs.root.mapping.disabled,ignored.files.count.1,active.changelists.count.1,unversioned.files.count.0" collectionTime="1529973043865" />
-    </group>
-    <group name="Git">
-      <project id="LugarDasRaizes" values="config.push.update.all.roots.enabled,config.save.policy.STASH,config.ssh.enabled,config.update.type.BRANCH_DEFAULT,config.warn.about.detached.enabled,data.remote.branches.count.1,config.warn.about.crlf.enabled,config.cherry-pick.autocommit.disabled,config.push.autoupdate.disabled,data.remotes.in.project.1,config.repo.sync.NOT_DECIDED,config.force.push.enabled,data.local.branches.count.1,version.2.16.2-CYGWIN,data.remote.servers.github.com.1" collectionTime="1530035145886" />
-      <project id="ProjetoApp" values="config.force.push.enabled,config.push.autoupdate.disabled,config.warn.about.crlf.enabled,config.push.update.all.roots.enabled,config.ssh.enabled,data.remote.branches.count.1,data.remotes.in.project.1,config.warn.about.detached.enabled,config.cherry-pick.autocommit.disabled,data.remote.servers.github.com.1,config.update.type.BRANCH_DEFAULT,data.local.branches.count.1,version.2.16.2-CYGWIN,config.repo.sync.NOT_DECIDED,config.save.policy.STASH" collectionTime="1529973045564" />
-    </group>
     <group name="vcs-options">
-      <project id="LugarDasRaizes" values="offer.move.failed.committed.do_nothing_silently,perform.commit.in.background.enabled,perform.checkout.in.background.enabled,perform.edit.in.background.enabled,commit.before.check.code.cleanup.disabled,commit.show.unversioned.enabled,show.changes.preview.disabled,commit.clear.initial.comment.disabled,commit.use.right.margin.enabled,commit.before.check.todo.enabled,commit.before.check.non.empty.comment.disabled,changelist.preselect.existing.disabled,commit.before.check.code.smell.enabled,perform.add_remove.in.background.enabled,perform.rollback.in.background.disabled,perform.update.in.background.enabled,changelist.make.new.active.disabled,commit.before.reformat.project.disabled,offer.move.partially.committed.disabled,include.text.into.shelf.enabled,check.conflicts.in.background.disabled,commit.before.rearrange.disabled,offer.remove.empty.changelist.show_confirmation,commit.before.optimize.imports.disabled" collectionTime="1530035145689" />
-      <project id="ProjetoApp" values="commit.use.right.margin.enabled,commit.show.unversioned.enabled,perform.commit.in.background.enabled,commit.before.reformat.project.disabled,show.changes.preview.disabled,offer.move.failed.committed.do_nothing_silently,changelist.preselect.existing.disabled,perform.checkout.in.background.enabled,commit.before.check.non.empty.comment.disabled,changelist.make.new.active.disabled,offer.move.partially.committed.disabled,commit.before.check.code.smell.enabled,commit.before.rearrange.disabled,include.text.into.shelf.enabled,offer.remove.empty.changelist.show_confirmation,perform.rollback.in.background.disabled,perform.update.in.background.enabled,commit.before.optimize.imports.disabled,commit.before.check.todo.enabled,perform.add_remove.in.background.enabled,check.conflicts.in.background.disabled,perform.edit.in.background.enabled,commit.before.check.code.cleanup.disabled,commit.clear.initial.comment.disabled" collectionTime="1529973043865" />
+      <project id="LugarDasRaizes" values="perform.edit.in.background.enabled,perform.rollback.in.background.disabled,changelist.preselect.existing.disabled,offer.remove.empty.changelist.show_confirmation,commit.use.right.margin.enabled,commit.before.check.todo.enabled,perform.add_remove.in.background.enabled,commit.clear.initial.comment.disabled,perform.commit.in.background.enabled,commit.before.check.code.smell.enabled,include.text.into.shelf.enabled,commit.before.check.non.empty.comment.disabled,show.changes.preview.disabled,perform.update.in.background.enabled,check.conflicts.in.background.disabled,commit.before.check.code.cleanup.disabled,offer.move.failed.committed.do_nothing_silently,commit.show.unversioned.enabled,commit.before.rearrange.disabled,offer.move.partially.committed.disabled,changelist.make.new.active.disabled,commit.before.reformat.project.disabled,commit.before.optimize.imports.disabled,perform.checkout.in.background.enabled" collectionTime="1530035145689" />
+      <project id="ProjetoApp" values="commit.before.check.non.empty.comment.disabled,commit.before.check.todo.enabled,commit.before.reformat.project.disabled,commit.before.check.code.smell.enabled,perform.checkout.in.background.enabled,changelist.preselect.existing.disabled,commit.before.rearrange.disabled,commit.show.unversioned.enabled,offer.move.partially.committed.disabled,changelist.make.new.active.disabled,commit.clear.initial.comment.disabled,include.text.into.shelf.enabled,commit.use.right.margin.enabled,offer.move.failed.committed.do_nothing_silently,show.changes.preview.disabled,offer.remove.empty.changelist.show_confirmation,perform.add_remove.in.background.enabled,check.conflicts.in.background.disabled,commit.before.check.code.cleanup.disabled,perform.update.in.background.enabled,perform.edit.in.background.enabled,perform.commit.in.background.enabled,commit.before.optimize.imports.disabled,perform.rollback.in.background.disabled" collectionTime="1529973043865" />
+    </group>
+    <group name="module type">
+      <project id="LugarDasRaizes" values="JAVA_MODULE" collectionTime="1530035145689" />
+      <project id="ProjetoApp" values="JAVA_MODULE" collectionTime="1529973043873" />
+    </group>
+    <group name="vcs-stats">
+      <project id="LugarDasRaizes" values="has.default.vcs.root.mapping.disabled,unversioned.files.count.100K+,vcs.roots.count.1,ignored.files.count.1,active.changelists.count.1" collectionTime="1530035145689" />
+      <project id="ProjetoApp" values="has.default.vcs.root.mapping.disabled,ignored.files.count.1,active.changelists.count.1,vcs.roots.count.1,unversioned.files.count.0" collectionTime="1529973043865" />
     </group>
   </component>
   <component name="UsageTrigger">
     <counts>
-      <entry feature="StripeButton[Android Profiler].hidden" count="8" />
-      <entry feature="StripeButton[Android Profiler].shown" count="10" />
+      <entry feature="StripeButton[Android Profiler].hidden" count="10" />
+      <entry feature="StripeButton[Android Profiler].shown" count="11" />
       <entry feature="StripeButton[Android_Profiler].hidden" count="37" />
       <entry feature="StripeButton[Android_Profiler].shown" count="33" />
       <entry feature="StripeButton[Version Control].shown" count="2" />
-      <entry feature="execute.AndroidRunConfigurationType.Run" count="863" />
+      <entry feature="execute.AndroidRunConfigurationType.Run" count="866" />
       <entry feature="ide.settings.Android_SDK" count="1" />
       <entry feature="ide.settings.Plugins" count="1" />
-      <entry feature="ideaapp.started" count="52" />
+      <entry feature="ideaapp.started" count="54" />
       <entry feature="terminal.win" count="11" />
       <entry feature="tips.of.the.day.next" count="42" />
       <entry feature="welcome.screen.WelcomeScreen.CreateNewProject" count="1" />
