@@ -113,13 +113,11 @@ public class Inicio extends Fragment implements View.OnClickListener {
                 f[0] = numerador.getText().toString();
                 f[1] = denominador.getText().toString();
                 grafico.setEquacao(f[0].toString(), f[1].toString());
-                ((MainActivity) getActivity()).graficoFragment();
+                //((MainActivity) getActivity()).graficoFragment();
                 Log.i(TAG, "Clicou no botao");
             }
-
         }
         if(v == btnLimpar){
-
             numerador.setText("");
             denominador.setText("");
         }
@@ -128,7 +126,6 @@ public class Inicio extends Fragment implements View.OnClickListener {
 
 
     public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
     }
 

@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.memo.lugardasraizes.Adapter.ComunicacaoGrafico;
+import com.example.memo.lugardasraizes.Adapter.RaizesDaFuncao;
 import com.example.memo.lugardasraizes.Adapter.RespostaGrafico;
 import com.example.memo.lugardasraizes.Dados.ResolveRaizes;
 import com.example.memo.lugardasraizes.Model.Ponto;
@@ -29,7 +30,7 @@ import java.util.Collections;
 import java.util.Comparator;
 
 
-public class GraficoFragment extends Fragment implements RespostaGrafico, Comparator, ComunicacaoGrafico {
+public class GraficoFragment extends Fragment implements RespostaGrafico, Comparator, ComunicacaoGrafico, RaizesDaFuncao {
 
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
@@ -92,7 +93,7 @@ public class GraficoFragment extends Fragment implements RespostaGrafico, Compar
         graphView.getViewport().setScalableY(true);
 
         graphView.removeAllSeries();
-        ResolveRaizes r = new ResolveRaizes(this, this);
+        ResolveRaizes r = new ResolveRaizes(this, this, this);
 
 
         return v;
@@ -288,6 +289,26 @@ public class GraficoFragment extends Fragment implements RespostaGrafico, Compar
     @Override
     public void printaCurva(ArrayList<Vetor> vetor) {
         Log.i(TAG, "printaCurva");
+    }
+
+    @Override
+    public void raizesDaFuncao(ArrayList<Ponto> pontos) {
+
+        Log.i(TAG, "Printa Raizes");
+
+        ArrayList<DataPoint> ponto = new ArrayList<>();
+        for (Ponto p : pontos) {
+            ponto.add(new DataPoint(p.getX(), p.getY()));
+        }
+        Collections.sort(ponto, this);
+        PointsGraphSeries<DataPoint> series = new PointsGraphSeries<>(ponto.toArray(new DataPoint[ponto.size()]));
+
+        series.setColor(Color.BLUE);
+
+        graphView.addSeries(series);
+
+
+
     }
 
 

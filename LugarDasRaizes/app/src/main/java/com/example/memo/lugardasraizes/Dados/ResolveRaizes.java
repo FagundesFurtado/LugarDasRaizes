@@ -4,10 +4,13 @@ import android.os.AsyncTask;
 import android.util.Log;
 
 import com.example.memo.lugardasraizes.Adapter.ComunicacaoGrafico;
+import com.example.memo.lugardasraizes.Adapter.RaizesDaFuncao;
 import com.example.memo.lugardasraizes.Adapter.RespostaGrafico;
 import com.example.memo.lugardasraizes.Model.Ponto;
 import com.example.memo.lugardasraizes.Model.Termo;
 import com.example.memo.lugardasraizes.Model.Vetor;
+import com.jjoe64.graphview.series.DataPoint;
+import com.jjoe64.graphview.series.PointsGraphSeries;
 
 import org.apache.commons.math3.analysis.UnivariateFunction;
 import org.apache.commons.math3.analysis.polynomials.PolynomialFunction;
@@ -20,6 +23,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.regex.Pattern;
 
+
 public class ResolveRaizes extends AsyncTask {
     private static ResolveRaizes singleton = new ResolveRaizes();
     private final String TAG = "Grafico";
@@ -27,6 +31,7 @@ public class ResolveRaizes extends AsyncTask {
     private ComunicacaoGrafico graph;
     private Grafico grafico = Grafico.getInstance();
     private ArrayList<Vetor> intersecoes = new ArrayList<>();
+    private RaizesDaFuncao graficoRaizes;
 
 
     private ResolveRaizes() {
@@ -36,13 +41,29 @@ public class ResolveRaizes extends AsyncTask {
         return singleton;
     }
 
-    public ResolveRaizes(RespostaGrafico respostaGrafico, ComunicacaoGrafico comunicacaoGrafico) {
+    public ResolveRaizes(RespostaGrafico respostaGrafico, ComunicacaoGrafico comunicacaoGrafico, RaizesDaFuncao raizesDaFuncao) {
         r = respostaGrafico;
         graph = comunicacaoGrafico;
+        graficoRaizes = raizesDaFuncao;
         Log.i(TAG, "Iniciando solucao do problema");
 
         this.execute();
 
+    }
+
+    public ResolveRaizes(RaizesDaFuncao raizesDaFuncao) {
+        graficoRaizes = raizesDaFuncao;
+
+
+    }
+
+
+    private Complex[] retornaRaizes(double[] equacao) {
+
+        LaguerreSolver laguerreSolver = new LaguerreSolver();
+        Complex[] raizes = laguerreSolver.solveAllComplex(equacao, 0);
+
+        return raizes;
     }
 
 
@@ -169,9 +190,52 @@ public class ResolveRaizes extends AsyncTask {
     protected Object doInBackground(Object[] objects) {
 
 
-        double zeros[] = trataString(grafico.numerador);
-        double polos[] = trataString(grafico.denominador);
-        resolveEquacaoSoComPolos(polos);
+
+
+
+        double numerador[] = preparaString((String) objects[0]);
+
+        double denominador[] = preparaString((String) objects[1]);
+
+
+//        double numerador[] = trataString(grafico.numerador);
+        //       double denominador[] = trataString(grafico.denominador);
+
+        double kInicial = 0;
+        double kFinal = 100; //Isso vai ser setado pelo Usuario
+        double passo = 1; //O passo vai ser setado pelo usuario
+
+        //A funcao caracteristica é dada por K*Numerador + Denominador =0
+
+        //Entao, é necessario variar o K de  0 até um determinado valor que o usuario quiser
+
+        PolynomialFunction funcaoDenominador = new PolynomialFunction(denominador);
+
+
+        ArrayList<Ponto> pontos = new ArrayList<>();
+
+        for (double i = kInicial; i < kFinal; i = i + passo) {
+            PolynomialFunction funcaoNumerador = new PolynomialFunction(retornaKNumerador(numerador, i));
+
+            PolynomialFunction funcaoCaracteristica = funcaoNumerador.add(funcaoDenominador);
+
+            //Resolve as raizes e adiciona em uma série para ser plotada no grafico
+
+            Complex[] raizes = retornaRaizes(funcaoCaracteristica.getCoefficients());
+
+
+            for (Complex c : raizes) {
+                Ponto novoPonto = new Ponto(c.getReal(), c.getImaginary());
+                pontos.add(novoPonto);
+            }
+
+
+        }
+
+
+        graficoRaizes.raizesDaFuncao(pontos);
+
+        // resolveEquacaoSoComPolos(polos);
 
         //
 //        ArrayList<Ponto> polosVetor = new ArrayList<>();
@@ -195,6 +259,35 @@ public class ResolveRaizes extends AsyncTask {
         Log.i(TAG, "Finalizou AsynkTask");
         return null;
     }
+
+
+    private double[] preparaString(String s) {
+
+        String split[] = s.split(" ");
+
+
+        double[] valores = new double[split.length];
+
+
+        for (int i = 0; i < split.length; i++) {
+            valores[i] = Double.parseDouble(split[split.length - 1 - i]);
+
+        }
+        return valores;
+
+    }
+
+
+    public double[] retornaKNumerador(double[] numerador, double k) {
+        double[] kn = new double[numerador.length];
+
+        for (int i = 0; i < numerador.length; i++) {
+            kn[i] = k * numerador[i];
+        }
+
+        return kn;
+    }
+
 
     private boolean assintotas(ArrayList<Ponto> polos, ArrayList<Ponto> zeros) {
         double somatoriaRaizesPolo = somatoriaVetor(polos);
@@ -220,7 +313,7 @@ public class ResolveRaizes extends AsyncTask {
 
                 Ponto pontoFinal;
                 if (angulo != 180) {
-                  pontoFinal=  new Ponto(m * (Math.cos(Math.toRadians(angulo))), pontoIrradiacao * Math.tan(angulo));
+                    pontoFinal = new Ponto(m * (Math.cos(Math.toRadians(angulo))), pontoIrradiacao * Math.tan(angulo));
                     //   else  new Ponto( m*(Math.cos(Math.toRadians(angulo))), m*coeficienteAngular));
                     Log.i("Calculos", m * Math.round(Math.cos(Math.toRadians(angulo))) + " " + coeficienteAngular * m);
                     vetor.add(new Vetor(new Ponto(pontoIrradiacao, 0), pontoFinal));
