@@ -6,6 +6,7 @@ import android.util.Log;
 import com.example.memo.lugardasraizes.Adapter.ComunicacaoGrafico;
 import com.example.memo.lugardasraizes.Adapter.RaizesDaFuncao;
 import com.example.memo.lugardasraizes.Adapter.RespostaGrafico;
+import com.example.memo.lugardasraizes.Model.Configuracao;
 import com.example.memo.lugardasraizes.Model.Ponto;
 import com.example.memo.lugardasraizes.Model.Termo;
 import com.example.memo.lugardasraizes.Model.Vetor;
@@ -183,7 +184,18 @@ public class ResolveRaizes extends AsyncTask {
 
         LaguerreSolver laguerreSolver = new LaguerreSolver();
         Complex[] raizes = laguerreSolver.solveAllComplex(equacao, 0);
+
         return raizes;
+    }
+    private ArrayList<Ponto> raizesA(Complex[] equacao) {
+
+        LaguerreSolver laguerreSolver = new LaguerreSolver();
+        ArrayList<Ponto> pontos = new ArrayList<>();
+        for(Complex c : equacao)
+        {
+            pontos.add(new Ponto(c.getReal(),c.getImaginary()));
+        }
+        return pontos;
     }
 
     @Override
@@ -196,14 +208,17 @@ public class ResolveRaizes extends AsyncTask {
         double numerador[] = preparaString((String) objects[0]);
 
         double denominador[] = preparaString((String) objects[1]);
-
+        if(numerador.length >1) {
+            graficoRaizes.printaZero(raizesA(raizes(numerador)));
+        }
+        graficoRaizes.printaPolo(raizesA(raizes(denominador)));
 
 //        double numerador[] = trataString(grafico.numerador);
         //       double denominador[] = trataString(grafico.denominador);
 
         double kInicial = 0;
-        double kFinal = 100; //Isso vai ser setado pelo Usuario
-        double passo = 1; //O passo vai ser setado pelo usuario
+        double kFinal = Configuracao.getInstance().getIntervalo(); //Isso vai ser setado pelo Usuario
+        double passo = Configuracao.getInstance().getPasso(); //O passo vai ser setado pelo usuario
 
         //A funcao caracteristica é dada por K*Numerador + Denominador =0
 

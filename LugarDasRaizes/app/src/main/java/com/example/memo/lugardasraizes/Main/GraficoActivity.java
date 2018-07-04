@@ -130,8 +130,8 @@ public class GraficoActivity extends AppCompatActivity implements RaizesDaFuncao
         }
         Collections.sort(ponto, this);
         PointsGraphSeries<DataPoint> series = new PointsGraphSeries<>(ponto.toArray(new DataPoint[ponto.size()]));
-
-        series.setColor(Color.BLUE);
+//        series.setSize(10);
+        series.setColor(Color.RED);
 
         grafico.addSeries(series);
     }

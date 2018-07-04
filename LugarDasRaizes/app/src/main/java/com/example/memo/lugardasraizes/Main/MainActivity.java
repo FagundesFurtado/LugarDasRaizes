@@ -31,6 +31,7 @@ import com.example.memo.lugardasraizes.Adapter.TabsAdapter;
 import com.example.memo.lugardasraizes.Dados.Grafico;
 import com.example.memo.lugardasraizes.Dados.ResolveRaizes;
 import com.example.memo.lugardasraizes.Fragment.GraficoFragment;
+import com.example.memo.lugardasraizes.Model.Configuracao;
 import com.example.memo.lugardasraizes.R;
 
 import java.util.List;
@@ -43,6 +44,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private EditText denominador;
     private Button ok;
     private Button limpar;
+    private EditText intervalo;
+    private EditText passo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,7 +57,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         numerador = findViewById(R.id.numerador);
         denominador = findViewById(R.id.denominador);
-
+        intervalo = findViewById(R.id.intervalo);
+        passo = findViewById(R.id.passo);
+        intervalo.setText("15");
+        passo.setText("0.1");
         ok = findViewById(R.id.btnOk);
         limpar = findViewById(R.id.btnLimpar);
 
@@ -63,6 +69,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         numerador.setOnKeyListener(this);
         denominador.setOnKeyListener(this);
+
 
     }
 
@@ -74,12 +81,19 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             Intent i = new Intent(this, GraficoActivity.class);
             i.putExtra("Numerador", numerador.getText().toString());
             i.putExtra("Denominador", denominador.getText().toString());
+            Configuracao.getInstance().setIntervalo(Double.parseDouble(intervalo.getText().toString()));
+            Configuracao.getInstance().setPasso(Double.parseDouble(passo.getText().toString()));
 
             startActivity(i);
 
         }
         if (v == limpar) {
-
+            numerador.setText("");
+            denominador.setText("");
+            intervalo.setText("15");
+            passo.setText("0.1");
+            numeradorExemplo.setText("");
+            denominadorExemplo.setText("");
         }
 
 

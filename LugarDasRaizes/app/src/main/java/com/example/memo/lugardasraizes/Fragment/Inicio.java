@@ -18,6 +18,7 @@ import android.widget.Toast;
 import com.example.memo.lugardasraizes.Dados.Grafico;
 import com.example.memo.lugardasraizes.Dados.ResolveRaizes;
 import com.example.memo.lugardasraizes.Main.MainActivity;
+import com.example.memo.lugardasraizes.Model.Configuracao;
 import com.example.memo.lugardasraizes.R;
 
 import java.util.ArrayList;
@@ -38,6 +39,7 @@ public class Inicio extends Fragment implements View.OnClickListener {
     private Button btnLimpar;
     private EditText numerador;
     private EditText denominador;
+
 
 
     private Grafico grafico = Grafico.getInstance();
@@ -112,14 +114,13 @@ public class Inicio extends Fragment implements View.OnClickListener {
                 String[] f = new String[2];
                 f[0] = numerador.getText().toString();
                 f[1] = denominador.getText().toString();
-                grafico.setEquacao(f[0].toString(), f[1].toString());
+              grafico.setEquacao(f[0].toString(), f[1].toString());
                 //((MainActivity) getActivity()).graficoFragment();
                 Log.i(TAG, "Clicou no botao");
             }
         }
         if(v == btnLimpar){
-            numerador.setText("");
-            denominador.setText("");
+
         }
 
     }

@@ -260,8 +260,8 @@ public class GraficoFragment extends Fragment implements RespostaGrafico, Compar
         }
         Collections.sort(ponto, this);
         PointsGraphSeries<DataPoint> series = new PointsGraphSeries<>(ponto.toArray(new DataPoint[ponto.size()]));
-
-        series.setColor(Color.BLUE);
+        series.setSize(20);
+        series.setColor(Color.RED);
 
         graphView.addSeries(series);
     }
@@ -300,9 +300,14 @@ public class GraficoFragment extends Fragment implements RespostaGrafico, Compar
         for (Ponto p : pontos) {
             ponto.add(new DataPoint(p.getX(), p.getY()));
         }
-        Collections.sort(ponto, this);
-        PointsGraphSeries<DataPoint> series = new PointsGraphSeries<>(ponto.toArray(new DataPoint[ponto.size()]));
 
+        Collections.sort(ponto, this);
+        PointsGraphSeries series = new PointsGraphSeries<>(ponto.toArray(new DataPoint[ponto.size()]));
+
+//        for(int i=1;i<pontos.size()-1;i++)
+//        {
+//            graphView.addSeries(desenhaReta(pontos.get(i),pontos.get(i+1)));
+//        }
         series.setColor(Color.BLUE);
 
         graphView.addSeries(series);
